@@ -25,6 +25,8 @@ allprojects {
         implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
         implementation "com.google.guava:guava:$guava"
+        implementation "org.tinylog:tinylog-api-kotlin:$tinylog"
+        implementation "org.tinylog:tinylog-impl:$tinylog"
 
         testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek"
         testImplementation "io.mockk:mockk:$mockk"

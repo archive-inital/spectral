@@ -1,0 +1,47 @@
+package org.spectral.deobfuscator
+
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.types.file
+import org.spectral.asm.core.ClassPool
+
+/**
+ * The deobfuscator console command definition.
+ */
+class DeobfuscatorCommand : CliktCommand(
+        name = "Deobfuscator",
+        help = "Modifies the bytecode of a OSRS gamepack to make it more readable.",
+        printHelpOnEmptyArgs = true,
+        invokeWithoutSubcommand = true
+) {
+
+    /**
+     * The input jar file to deobfuscate.
+     */
+    private val inputJarFile by argument("input jar", help = "Path to the input JAR file").file(mustExist = true, canBeDir = false)
+
+    /**
+     * The output jar file to export the deobfuscated classes to.
+     */
+    private val outputJarFile by argument("output jar", help = "Path to the output JAR file").file(mustExist = false, canBeDir = false)
+
+    /**
+     * Execute the command.
+     */
+    override fun run() {
+        /*
+         * Build the deobfuscator object.
+         */
+
+        val pool = ClassPool()
+        pool.addArchive(inputJarFile)
+        pool.init()
+
+        val deobfuscator = Deobfuscator(pool)
+
+        /*
+         * Run the deobfuscator.
+         */
+        deobfuscator.run()
+    }
+}

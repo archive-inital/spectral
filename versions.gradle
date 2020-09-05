@@ -6,4 +6,5 @@ ext {
     hamkrest = "1.7.0.3"
     asmcore = "0.0.1"
     clikt = "3.0.1"
+    tinylog = "2.2.0-M4"
 }
