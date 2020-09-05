@@ -7,10 +7,24 @@ import org.tinylog.kotlin.Logger
  * Responsible for deobfuscating OSRS gamepacks to make them eaiser to read
  * as well as able to be decompiled.
  *
- * @property pool The class pool to deobfuscate
  * @constructor
  */
-class Deobfuscator(val pool: ClassPool) {
+class Deobfuscator private constructor() {
+
+    /**
+     * the class pool to deobfuscate.
+     */
+    lateinit var pool: ClassPool
+
+    /**
+     * Creates a deobfuscation initialized with a class pool.
+     *
+     * @param pool ClassPool
+     * @constructor
+     */
+    constructor(pool: ClassPool) : this() {
+        this.pool = pool.apply { this.forEach { if(!it.real) pool.remove(it) } }
+    }
 
     /**
      * The transformers to be executed during the deobfuscation.
