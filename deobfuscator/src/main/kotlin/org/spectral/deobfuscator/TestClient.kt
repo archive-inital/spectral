@@ -21,7 +21,7 @@ import javax.swing.JFrame
 class TestClient(val gamepack: File) {
 
     fun start() {
-        Logger.info("Starting test client with gamepack JAR: 'gamepack.jar'.")
+        Logger.info("Starting test client with gamepack JAR: '${gamepack.path}'.")
 
         val params = this.crawlJavConfig()
         val classloader = URLClassLoader(arrayOf(gamepack.toURI().toURL()))

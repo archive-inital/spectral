@@ -5,6 +5,7 @@ import org.objectweb.asm.Type
 import org.objectweb.asm.tree.TryCatchBlockNode
 import org.spectral.asm.core.ClassPool
 import org.spectral.deobfuscator.Transformer
+import org.spectral.deobfuscator.exception.DeobfuscatorException
 import org.spectral.deobfuscator.util.nextPattern
 import org.spectral.deobfuscator.util.opname
 import org.tinylog.kotlin.Logger
@@ -54,6 +55,10 @@ class RuntimeExceptionRemover : Transformer {
                                     it.forEach { m.node.instructions.remove(it) }
                                     toRemove.add(block)
                                     counter++
+
+                                    if(it.last().next != null) {
+                                        throw DeobfuscatorException("Did not remove all the handler instructions. $it")
+                                    }
                                 }
                             }
                         }
