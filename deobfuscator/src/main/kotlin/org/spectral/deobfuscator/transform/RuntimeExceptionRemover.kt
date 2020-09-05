@@ -1,8 +1,12 @@
 package org.spectral.deobfuscator.transform
 
+import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.Type
+import org.objectweb.asm.tree.TryCatchBlockNode
 import org.spectral.asm.core.ClassPool
 import org.spectral.deobfuscator.Transformer
+import org.spectral.deobfuscator.util.nextPattern
+import org.spectral.deobfuscator.util.opname
 import org.tinylog.kotlin.Logger
 import java.lang.RuntimeException
 
@@ -23,14 +27,43 @@ class RuntimeExceptionRemover : Transformer {
                     return@methodLoop
                 }
 
-                val oldSize = m.node.tryCatchBlocks.size
-
                 /*
                  * Remove the try-catch blocks if the type is of
                  * the runtime exception internal name
                  */
-                m.node.tryCatchBlocks.removeIf { it.type == RUNTIME_EXCEPTION_NAME }
-                counter += oldSize - m.node.tryCatchBlocks.size
+                val blocks = m.node.tryCatchBlocks
+                if(blocks.isNotEmpty()) {
+                    val toRemove = mutableListOf<TryCatchBlockNode>()
+
+                    blocks.forEach { block ->
+                        if(block.type == null) {
+                            toRemove.add(block)
+                            counter++
+                        }
+                        else if(block.type == RUNTIME_EXCEPTION_NAME) {
+                            val handler = block.handler.next.next
+                            if(handler != null && handler.opcode == NEW) {
+                                /*
+                                 * Remove the try-catch handler instructions and add
+                                 * the current [block] to the [toRemove] list for removal.
+                                 */
+                                handler.nextPattern(DUP, INVOKESPECIAL, LDC, INVOKEVIRTUAL,
+                                    LDC, INVOKEVIRTUAL, INVOKEVIRTUAL, INVOKESTATIC, ATHROW)?.let {
+                                    m.node.instructions.remove(handler.previous)
+                                    m.node.instructions.remove(handler)
+                                    it.forEach { m.node.instructions.remove(it) }
+                                    toRemove.add(block)
+                                    counter++
+                                }
+                            }
+                        }
+                    }
+
+                    /*
+                     * Remove all the try catch blocks.
+                     */
+                    m.node.tryCatchBlocks.removeAll(toRemove)
+                }
             }
         }
 
@@ -41,6 +74,6 @@ class RuntimeExceptionRemover : Transformer {
         /**
          * The runtime exception class internal name.
          */
-        private val RUNTIME_EXCEPTION_NAME = Type.getInternalName(RuntimeException::class.java)
+        private const val RUNTIME_EXCEPTION_NAME = "java/lang/RuntimeException"
     }
 }
