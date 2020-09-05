@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.types.file
 import org.spectral.asm.core.ClassPool
+import org.tinylog.kotlin.Logger
 
 /**
  * The deobfuscator console command definition.
@@ -43,5 +44,20 @@ class DeobfuscatorCommand : CliktCommand(
          * Run the deobfuscator.
          */
         deobfuscator.run()
+
+        /*
+         * Export the modified classes.
+         */
+
+        Logger.info("Exporting deobfuscated classes to '${outputJarFile.path}'")
+
+        if(outputJarFile.exists()) {
+            Logger.info("Overwriting existing output JAR file: '${outputJarFile.path}'")
+            outputJarFile.delete()
+        }
+
+        pool.saveArchive(outputJarFile)
+
+        Logger.info("Completed deobfuscation.")
     }
 }
