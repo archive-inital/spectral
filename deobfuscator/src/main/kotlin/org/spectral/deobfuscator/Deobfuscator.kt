@@ -72,7 +72,7 @@ class Deobfuscator private constructor() {
             val bytes = mutableListOf<ByteArray>()
 
             pool.forEach {
-                val writer = ClassWriter(0)
+                val writer = ClassWriter(ClassWriter.COMPUTE_MAXS)
                 it.node.accept(writer)
 
                 bytes.add(writer.toByteArray())
