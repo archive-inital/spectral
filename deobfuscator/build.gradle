@@ -3,6 +3,6 @@ dependencies {
     implementation "org.ow2.asm:asm-commons:$asm"
     implementation "org.ow2.asm:asm-util:$asm"
     implementation "org.ow2.asm:asm-tree:$asm"
-    implementation "org.spectral.asm:asm-core:$asmcore"
+    implementation "org.spectral.asm:asm-core:$spectralasm"
     implementation "com.github.ajalt.clikt:clikt:$clikt"
 }
