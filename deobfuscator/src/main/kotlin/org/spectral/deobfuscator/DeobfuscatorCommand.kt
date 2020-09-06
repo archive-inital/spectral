@@ -56,7 +56,7 @@ class DeobfuscatorCommand : CliktCommand(
             outputJarFile.delete()
         }
 
-        pool.saveArchive(outputJarFile)
+        deobfuscator.pool.saveArchive(outputJarFile)
 
         Logger.info("Completed deobfuscation.")
     }

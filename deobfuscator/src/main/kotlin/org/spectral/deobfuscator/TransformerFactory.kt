@@ -1,6 +1,7 @@
 package org.spectral.deobfuscator
 
 import org.spectral.deobfuscator.transform.RuntimeExceptionRemover
+import org.spectral.deobfuscator.transform.StaticFieldInliner
 import org.spectral.deobfuscator.transform.controlflow.ControlFlowFixer
 
 /**
@@ -13,7 +14,7 @@ import org.spectral.deobfuscator.transform.controlflow.ControlFlowFixer
 enum class TransformerFactory(val order: Int, val build: () -> Transformer) {
 
     RUNTIME_EXCEPTION(1, { RuntimeExceptionRemover() }),
-    CONTROL_FLOW(3, { ControlFlowFixer() });
+    CONTROL_FLOW(2, { ControlFlowFixer() });
 
     companion object {
         val values = enumValues<TransformerFactory>()

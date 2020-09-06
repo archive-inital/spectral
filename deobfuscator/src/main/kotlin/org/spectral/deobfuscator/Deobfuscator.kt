@@ -68,20 +68,6 @@ class Deobfuscator private constructor() {
         transformers.forEach {
             Logger.info("Running transformer: '${it::class.java.simpleName}'")
             it.execute(pool)
-
-            val bytes = mutableListOf<ByteArray>()
-
-            pool.forEach {
-                val writer = ClassWriter(0)
-                it.node.accept(writer)
-
-                bytes.add(writer.toByteArray())
-            }
-
-            this.pool = ClassPool()
-            bytes.forEach { this.pool.addClass(it) }
-            this.pool.init()
-            this.pool.removeIf { !it.real }
         }
     }
 
