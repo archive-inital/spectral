@@ -66,8 +66,8 @@ class StaticFieldInliner : Transformer {
         fromClassNode.fields.remove(oldFieldNode)
         toClassNode.fields.add(newFieldNode)
 
-        pool.elements[fromClassNode.name] = Class(pool, fromClassNode, Type.getObjectType(fromClassNode.name), true)
-        pool.elements[toClassNode.name] = Class(pool, toClassNode, Type.getObjectType(toClassNode.name), true)
+        pool.elements[Type.getObjectType(fromClassNode.name)] = Class(pool, fromClassNode, Type.getObjectType(fromClassNode.name), true)
+        pool.elements[Type.getObjectType(toClassNode.name)] = Class(pool, toClassNode, Type.getObjectType(toClassNode.name), true)
 
         return InlinedField(oldFieldNode, newFieldNode, fromClassNode, toClassNode)
     }
