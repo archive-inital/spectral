@@ -43,9 +43,9 @@ class Deobfuscator private constructor() {
         Logger.info("Registering transformers")
 
         val unregisteredTransformers = TransformerFactory.values.apply { this.sortBy { it.order } }
-        unregisteredTransformers.forEach {
-            transformers.add(it.build())
-            Logger.info("Registered transformer: '${it::class.java.simpleName}'")
+        unregisteredTransformers.forEach { transformer ->
+            transformers.add(transformer.build())
+            Logger.info("Registered transformer: '${transformer::class.java.simpleName}'")
         }
 
         Logger.info("Successfully registered ${transformers.size} bytecode transformers")

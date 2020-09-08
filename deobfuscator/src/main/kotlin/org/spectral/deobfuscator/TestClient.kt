@@ -11,6 +11,7 @@ import java.io.File
 import java.net.URL
 import java.net.URLClassLoader
 import javax.swing.JFrame
+import javax.swing.WindowConstants
 
 /**
  * Represents a test jagex client using [gamepack] gamepack jar file.
@@ -50,7 +51,7 @@ class TestClient(val gamepack: File) {
         frame.layout = GridLayout(1, 0)
         frame.add(applet)
         frame.pack()
-        frame.defaultCloseOperation = JFrame.DISPOSE_ON_CLOSE
+        frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         frame.setLocationRelativeTo(null)
         frame.isVisible = true
     }

@@ -33,10 +33,8 @@ class DeobfuscatorCommand : CliktCommand(
         /*
          * Build the deobfuscator object.
          */
-
         val pool = ClassPool()
         pool.addArchive(inputJarFile)
-        pool.init()
 
         val deobfuscator = Deobfuscator(pool)
 
@@ -48,7 +46,6 @@ class DeobfuscatorCommand : CliktCommand(
         /*
          * Export the modified classes.
          */
-
         Logger.info("Exporting deobfuscated classes to '${outputJarFile.path}'")
 
         if(outputJarFile.exists()) {
