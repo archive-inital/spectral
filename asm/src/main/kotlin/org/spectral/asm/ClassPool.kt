@@ -2,17 +2,19 @@ package org.spectral.asm
 
 /**
  * Represents a collection of [Class] objects from a common class path source.
- *
- * @constructor
+ * @constructor Creates an empty [ClassPool].
  */
 class ClassPool {
 
-    private val classes = mutableListOf<Class>()
+    /**
+     * The [Class] objects stored in this pool.
+     */
+    val classes = mutableListOf<Class>()
+
     private val classMap = hashMapOf<String, Class>()
 
     /**
      * Adds a [Class] to the pool.
-     *
      * @param element Class
      */
     fun addClass(element: Class) {
@@ -25,7 +27,6 @@ class ClassPool {
 
     /**
      * Removes a [Class] from the pool.
-     *
      * @param element Class
      */
     fun removeClass(element: Class) {

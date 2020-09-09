@@ -1,3 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        jcenter()
+        mavenCentral()
+    }
+}
+
 rootProject.name = 'spectral'
 
 include ':asm'

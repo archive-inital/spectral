@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.0' apply false
+    id 'org.jetbrains.dokka' version '1.4.0' apply false
 }
 
 apply from: 'versions.gradle'
@@ -10,15 +11,15 @@ wrapper {
 
 allprojects {
     apply plugin: 'org.jetbrains.kotlin.jvm'
+    apply plugin: 'org.jetbrains.dokka'
 
     group 'org.spectral'
-    version '1.0.0'
+    version '0.0.1'
 
     repositories {
         mavenLocal()
         mavenCentral()
         jcenter()
-        maven { url 'https://repo.spectralclient.org/repository/spectral/' }
     }
 
     dependencies {
@@ -35,4 +36,8 @@ allprojects {
         testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:$spek"
         testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect"
     }
+}
+
+dokkaHtml {
+
 }

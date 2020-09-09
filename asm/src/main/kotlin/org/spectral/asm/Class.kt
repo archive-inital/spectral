@@ -4,27 +4,27 @@ package org.spectral.asm
  * Represents an java class file or object.
  *
  * @property pool The pool this object belongs in.
- * @constructor
+ * @constructor Creates an [Class] with a defined [ClassPool] membership.
  */
 class Class(var pool: ClassPool) {
 
     /**
-     * Creates a class object with its own pool membership.
-     *
-     * @constructor
+     * @constructor Creates a [Class] with a newly created [ClassPool] membership.
      */
     constructor() : this(ClassPool()) {
         pool.addClass(this)
     }
 
     /**
-     * The name of this class object.
+     * The name of the class.
      */
     lateinit var name: String
         internal set
 
     /**
-     * Gets a string representation of this object.
+     * Gets a string representation of the class.
+     *
+     * The format is '[name]'
      *
      * @return String
      */
