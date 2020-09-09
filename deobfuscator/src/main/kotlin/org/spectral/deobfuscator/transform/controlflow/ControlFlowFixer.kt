@@ -20,7 +20,7 @@ class ControlFlowFixer : Transformer {
     override fun execute(pool: ClassPool) {
         var counter = 0
 
-        pool.forEach { c ->
+        pool.values.forEach { c ->
             c.methods.forEach { m ->
                 if(m.node.tryCatchBlocks.isEmpty()) {
                     val analyzer = ControlFlowAnalyzer()

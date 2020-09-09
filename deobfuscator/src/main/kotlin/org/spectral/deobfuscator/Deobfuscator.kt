@@ -24,7 +24,7 @@ class Deobfuscator private constructor() {
      * @constructor
      */
     constructor(pool: ClassPool) : this() {
-        this.pool = pool.apply { this.forEach { if(!it.real) pool.remove(it) } }
+        this.pool = pool.apply { this.values.removeIf { !it.real } }
     }
 
     /**
@@ -45,7 +45,7 @@ class Deobfuscator private constructor() {
         val unregisteredTransformers = TransformerFactory.values.apply { this.sortBy { it.order } }
         unregisteredTransformers.forEach { transformer ->
             transformers.add(transformer.build())
-            Logger.info("Registered transformer: '${transformer::class.java.simpleName}'")
+            Logger.info("Registered transformer: '${transformer.build()::class.java.simpleName}'")
         }
 
         Logger.info("Successfully registered ${transformers.size} bytecode transformers")

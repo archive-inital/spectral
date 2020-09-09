@@ -33,7 +33,7 @@ class DeobfuscatorCommand : CliktCommand(
         /*
          * Build the deobfuscator object.
          */
-        val pool = ClassPool()
+        val pool = ClassPool.create()
         pool.addArchive(inputJarFile)
 
         val deobfuscator = Deobfuscator(pool)

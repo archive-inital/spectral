@@ -19,7 +19,7 @@ class RuntimeExceptionRemover : Transformer {
     private var counter = 0
 
     override fun execute(pool: ClassPool) {
-        pool.forEach { c ->
+        pool.values.forEach { c ->
             c.methods.forEach methodLoop@ { m ->
                 /*
                  * Skip the client.init()V method.
