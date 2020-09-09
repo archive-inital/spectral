@@ -9,7 +9,7 @@ import kotlin.properties.Delegates
  * @property pool The [ClassPool] this object belongs in.
  * @constructor Creates an [Class] with a defined [ClassPool] membership.
  */
-class Class(override val pool: ClassPool) : Node {
+class Class(var pool: ClassPool) : Node {
 
     /**
      * @constructor Creates a [Class] with a newly created [ClassPool] membership.
@@ -23,6 +23,7 @@ class Class(override val pool: ClassPool) : Node {
      */
     override var name: String by Delegates.observable("") { _, _, value ->
         name = value.replace(".", "/")
+        type = Type.getObjectType(name)
     }
 
     /**
@@ -72,6 +73,11 @@ class Class(override val pool: ClassPool) : Node {
      * The class file version if one is provided.
      */
     var version: Int = -1
+
+    /**
+     * The methods which are contained in this class.
+     */
+    val methods = mutableListOf<Method>()
 
     /**
      * Gets whether this class is an instance of [other]'s [Class].

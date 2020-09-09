@@ -28,9 +28,4 @@ interface Node {
      * The bit-packed access and visibility flags of the node element.
      */
     val access: Int
-
-    /**
-     * The [ClassPool] this node originates / blongs to.
-     */
-    val pool: ClassPool
 }

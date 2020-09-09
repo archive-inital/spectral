@@ -27,6 +27,22 @@ class Signature(val args: List<Type>, var ret: Type) {
      */
     constructor(type: Type) : this(type.argumentTypes.toMutableList(), type.returnType)
 
+    /**
+     * Gets the descriptor string value of this signature.
+     */
+    val descriptor: String get() = Type.getMethodDescriptor(ret, *args.toTypedArray())
+
+    /**
+     * Gets the string representation of this signature object.
+     *
+     * This method simply just returns the [descriptor] string value.
+     *
+     * @return [String]
+     */
+    override fun toString(): String {
+        return descriptor
+    }
+
     companion object {
         /**
          * A Builder for creating a [Signature] instance.
