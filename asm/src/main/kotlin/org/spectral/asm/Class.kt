@@ -44,6 +44,11 @@ class Class(override val pool: ClassPool) : Node {
     val children = mutableListOf<Class>()
 
     /**
+     * The interfaces this class implements.
+     */
+    val interfaces = Interfaces(this)
+
+    /**
      * The source file name this class came from.
      */
     lateinit var source: String
@@ -62,6 +67,18 @@ class Class(override val pool: ClassPool) : Node {
      * The class file version if one is provided.
      */
     var version: Int = -1
+
+    /**
+     * Gets whether this class is an instance of [other]'s [Class].
+     *
+     * @param other The [Class] to compare.
+     * @return The result as a [Boolean].
+     */
+    fun instanceOf(other: Class): Boolean {
+        return this == other ||
+                interfaces.instanceOf(other) ||
+                (parent != null && parent?.instanceOf(other) ?: false)
+    }
 
     /**
      * Gets a string representation of the class.

@@ -5,6 +5,7 @@ import org.objectweb.asm.Type
 /**
  * A node is a type of object which has its roots as an element dealing with Bytecode of .class java files.
  *
+ *
  * Some examples of nodes should be:
  * Classes, Methods, Fields, Parameters, Variables, etc.
  *
