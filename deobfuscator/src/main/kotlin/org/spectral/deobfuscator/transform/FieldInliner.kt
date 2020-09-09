@@ -21,7 +21,7 @@ class FieldInliner : Transformer {
 
         pool.values.forEach { c ->
             c.methods.forEach { m ->
-                m.instructions.iterator().forEach { insn ->
+                m.node.instructions.iterator().forEach { insn ->
                     if(insn is FieldInsnNode) {
                         val opcode = insn.opcode
                         val oldOwner = insn.owner

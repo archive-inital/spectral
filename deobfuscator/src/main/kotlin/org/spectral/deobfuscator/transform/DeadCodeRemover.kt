@@ -18,16 +18,16 @@ class DeadCodeRemover : Transformer {
             c.methods.forEach { m ->
                 try {
                     val frames = Analyzer(BasicInterpreter()).analyze(c.name, m.node)
-                    val insns = m.instructions.toArray()
+                    val insns = m.node.instructions.toArray()
 
                     for(i in frames.indices) {
                         if(frames[i] == null) {
-                            m.instructions.remove(insns[i])
+                            m.node.instructions.remove(insns[i])
                             counter++
                         }
                     }
                 } catch(e : Exception) {
-                    Logger.error(e) { "Failed to remove instruction frame in method: $m"}
+                    Logger.error { "Failed to remove instruction frame in method: $m"}
                 }
             }
         }

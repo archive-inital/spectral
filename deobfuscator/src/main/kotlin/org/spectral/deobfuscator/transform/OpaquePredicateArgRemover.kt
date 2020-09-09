@@ -26,7 +26,7 @@ class OpaquePredicateArgRemover : Transformer {
         val topMethods = hashSetOf<String>()
         for(c in pool.values) {
             val supers = supers(c.node, namedGroup)
-            for(m in c.methods) {
+            for(m in c.node.methods) {
                 if(supers.none { it.methods.any { it.name == m.name && it.desc == m.desc } }) {
                     topMethods.add("${c.name}.${m.name}${m.desc}")
                 }
@@ -37,9 +37,9 @@ class OpaquePredicateArgRemover : Transformer {
         val implementationFlatMap = implementationMap.asMap()
 
         for(c in pool.values) {
-            for(m in c.methods) {
+            for(m in c.node.methods) {
                 val s = overrides(c.name, m.name + m.desc, topMethods, namedGroup) ?: continue
-                implementationMap.put(s, ClassMethod(c.node, m.node))
+                implementationMap.put(s, ClassMethod(c.node, m))
             }
         }
 
@@ -51,7 +51,7 @@ class OpaquePredicateArgRemover : Transformer {
         }
 
         for(c in pool.values) {
-            for(m in c.methods) {
+            for(m in c.node.methods) {
                 val insnList = m.instructions
                 for(insn in insnList) {
                     if(insn !is MethodInsnNode) continue
@@ -65,7 +65,7 @@ class OpaquePredicateArgRemover : Transformer {
 
         val duplicateMap = TreeMultimap.create<String, String>()
         pool.values.forEach { c ->
-            c.methods.filter { it.name != "<clinit>" }.forEach { m ->
+            c.node.methods.filter { it.name != "<clinit>" }.forEach { m ->
                 duplicateMap.put(m.id(), c.name + "." + m.name + m.desc)
             }
         }
@@ -78,7 +78,7 @@ class OpaquePredicateArgRemover : Transformer {
         }
 
         for(c in pool.values) {
-            for(m in c.methods) {
+            for(m in c.node.methods) {
                 val insnList = m.instructions
                 for(insn in insnList) {
                     if(insn !is MethodInsnNode) continue
@@ -132,7 +132,7 @@ class OpaquePredicateArgRemover : Transformer {
 
     private data class ClassMethod(val c: ClassNode, val m: MethodNode)
 
-    private fun Method.id(): String {
+    private fun MethodNode.id(): String {
         return "${ Type.getReturnType(desc)}." + (instructions.lineNumberRange() ?: "*") + "." + instructions.hash()
     }
 

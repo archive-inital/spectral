@@ -29,8 +29,8 @@ class MultiplierFinder {
         val multipliers = Multipliers()
         val analyzer = Analyzer(Interpret(multipliers))
         pool.values.forEach { c ->
-            c.methods.forEach { m ->
-                analyzer.analyze(c.name, m.node)
+            c.node.methods.forEach { m ->
+                analyzer.analyze(c.name, m)
             }
         }
 

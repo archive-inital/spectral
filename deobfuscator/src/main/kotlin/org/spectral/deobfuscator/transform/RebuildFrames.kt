@@ -7,6 +7,7 @@ import org.objectweb.asm.tree.ClassNode
 import org.spectral.asm.core.ClassPool
 import org.spectral.deobfuscator.Transformer
 import org.tinylog.kotlin.Logger
+import org.spectral.asm.core.Class
 
 /**
  * Rebuilds the frames in each method inside the pool by writing and reading the class
@@ -24,7 +25,7 @@ class RebuildFrames : Transformer {
             val reader = ClassReader(writer.toByteArray())
             reader.accept(newNode, ClassReader.SKIP_FRAMES)
 
-            newPool.addClass(Class(newPool, Type.getObjectType(newNode.name), newNode))
+            newPool.addClass(Class(newPool, newNode))
         }
 
         pool.clear()
@@ -62,7 +63,7 @@ class RebuildFrames : Transformer {
             return if (type in classNames) {
                 classNames.getValue(type).interfaces
             } else {
-                Class.forName(type.replace('/', '.')).interfaces.map { Type.getInternalName(it) }
+                java.lang.Class.forName(type.replace('/', '.')).interfaces.map { Type.getInternalName(it) }
             }
         }
 
@@ -70,7 +71,7 @@ class RebuildFrames : Transformer {
             return if (type in classNames) {
                 classNames.getValue(type).superName
             } else {
-                val c = Class.forName(type.replace('/', '.'))
+                val c = java.lang.Class.forName(type.replace('/', '.'))
                 if (c.isInterface) {
                     OBJECT_INTERNAL_NAME
                 } else {

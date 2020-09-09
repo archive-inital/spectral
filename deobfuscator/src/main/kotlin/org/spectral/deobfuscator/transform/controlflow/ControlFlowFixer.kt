@@ -25,7 +25,7 @@ class ControlFlowFixer : Transformer {
                 if(m.node.tryCatchBlocks.isEmpty()) {
                     val analyzer = ControlFlowAnalyzer()
                     analyzer.analyze(c.name, m.node)
-                    m.node.instructions = reorderInstructions(m.instructions, analyzer.blocks)
+                    m.node.instructions = reorderInstructions(m.node.instructions, analyzer.blocks)
 
                     counter += analyzer.blocks.size
                 }
@@ -39,7 +39,7 @@ class ControlFlowFixer : Transformer {
         val newInsns = InsnList()
 
         if(blocks.isEmpty()) {
-            return insns
+            return newInsns
         }
 
         val labelMap = LabelMap()

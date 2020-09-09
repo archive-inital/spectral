@@ -14,7 +14,7 @@ class GotoRemover : Transformer {
     override fun execute(pool: ClassPool) {
         pool.values.forEach { c ->
             c.methods.forEach { m ->
-                val instructions = m.instructions.iterator()
+                val instructions = m.node.instructions.iterator()
                 while(instructions.hasNext()) {
                     val insn0 = instructions.next()
 

@@ -23,11 +23,11 @@ class MultiplierRemover : Transformer {
         Logger.info("Removing multipliers...")
 
         pool.values.forEach { c ->
-            c.methods.forEach { m ->
-                m.node.maxStack += 2
-                cancelOutMultipliers(m.node, decoders = multipliers)
-                solveConstantMath(c.node, m.node)
-                m.node.maxStack -= 2
+            c.node.methods.forEach { m ->
+                m.maxStack += 2
+                cancelOutMultipliers(m, decoders = multipliers)
+                solveConstantMath(c.node, m)
+                m.maxStack -= 2
             }
         }
 
