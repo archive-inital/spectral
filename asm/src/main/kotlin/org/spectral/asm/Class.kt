@@ -1,6 +1,7 @@
 package org.spectral.asm
 
 import org.objectweb.asm.Type
+import kotlin.properties.Delegates
 
 /**
  * Represents an java class file or object.
@@ -20,12 +21,16 @@ class Class(override val pool: ClassPool) : Node {
     /**
      * The name of the class.
      */
-    override lateinit var name: String
+    override var name: String by Delegates.observable("") { _, _, value ->
+        name = value.replace(".", "/")
+    }
 
     /**
      * The super-type (superClass) class name.
      */
-    lateinit var superName: String
+    var superName: String by Delegates.observable("") { _, _, value ->
+        superName = value.replace(".", "/")
+    }
 
     /**
      * The parent or super class [Class].
