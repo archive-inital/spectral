@@ -36,6 +36,15 @@ class Instructions(val code: Code) : Iterable<Instruction> {
        instructions.add(index, insn)
     }
 
+    /**
+     * Adds an instruction to the end of this collection's list.
+     *
+     * @param insn Instruction
+     */
+    fun addInstruction(insn: Instruction) {
+        instructions.add(insn)
+    }
+
     fun createLabelFor(target: Instruction): Label = createLabelFor(target, false)
 
     fun createLabelFor(target: Instruction, forceCreate: Boolean): Label {

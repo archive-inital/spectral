@@ -5,10 +5,7 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes.ASM8
 import org.spectral.asm.Class
 import org.spectral.asm.Method
-import org.spectral.asm.code.Code
-import org.spectral.asm.code.Exception
-import org.spectral.asm.code.Instruction
-import org.spectral.asm.code.InstructionType
+import org.spectral.asm.code.*
 import org.spectral.asm.signature.Signature
 
 /**
@@ -47,6 +44,28 @@ class AsmMethodVisitor(
 
     override fun visitCode() {
         code = Code(method)
+    }
+
+    private fun createInstruction(opcode: Int): Instruction? {
+        val type = InstructionType.values().firstOrNull { it.opcode == opcode }
+        if(type != null) {
+            val constructor = type.insnClass.java.getDeclaredConstructor(Instructions::class.java, InstructionType::class.java)
+            val insn: Instruction = constructor.newInstance(code.instructions, type) as Instruction
+
+            return insn
+        }
+
+        return null
+    }
+
+    override fun visitInsn(opcode: Int) {
+        val insn = when {
+            else -> createInstruction(opcode)
+        }
+
+        if(insn != null) {
+            code.instructions.addInstruction(insn)
+        }
     }
 
     override fun visitTryCatchBlock(start: Label, end: Label, handler: Label, type: String?) {
