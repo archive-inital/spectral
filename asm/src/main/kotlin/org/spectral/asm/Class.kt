@@ -21,17 +21,19 @@ class Class(var pool: ClassPool) : Node {
     /**
      * The name of the class.
      */
-    override var name: String by Delegates.observable("") { _, _, value ->
-        name = value.replace(".", "/")
-        type = Type.getObjectType(name)
-    }
+    override var name: String = ""
+        set(value) {
+            field = value.replace(".", "/")
+            type = Type.getObjectType(field)
+        }
 
     /**
      * The super-type (superClass) class name.
      */
-    var superName: String by Delegates.observable("") { _, _, value ->
-        superName = value.replace(".", "/")
-    }
+    var superName: String = ""
+        set(value) {
+            field = value.replace(".", "/")
+        }
 
     /**
      * The parent or super class [Class].
