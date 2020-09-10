@@ -6,4 +6,7 @@ ext {
     hamkrest = "1.7.0.3"
     clikt = "3.0.1"
     tinylog = "2.2.0-M4"
+    kotlinpoet = "1.6.0"
+    googleautoservice = "1.0-rc7"
+    googleautocommon = "0.11"
 }

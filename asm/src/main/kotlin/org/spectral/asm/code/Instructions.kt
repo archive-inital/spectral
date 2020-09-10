@@ -1,6 +1,7 @@
-package org.spectral.asm.code.instruction
+package org.spectral.asm.code
 
 import org.spectral.asm.code.Code
+import org.spectral.asm.code.Instruction
 import org.spectral.util.collection.asReadOnly
 
 class Instructions(val code: Code) : Iterable<Instruction> {

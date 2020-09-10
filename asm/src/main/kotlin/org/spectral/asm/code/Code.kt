@@ -1,7 +1,6 @@
 package org.spectral.asm.code
 
 import org.spectral.asm.Method
-import org.spectral.asm.code.instruction.Instructions
 
 /**
  * Represents the instruction list or code of a provided [Method] object.

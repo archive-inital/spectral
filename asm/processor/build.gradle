@@ -1,0 +1,13 @@
+description = "Spectral ASM Annotation Processor"
+
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    implementation project(":asm:asm-annotation")
+
+    kapt "com.google.auto.service:auto-service:$googleautoservice"
+
+    implementation "com.squareup:kotlinpoet:$kotlinpoet"
+    implementation "com.google.auto:auto-common:$googleautocommon"
+    implementation "com.google.auto.service:auto-service:$googleautoservice"
+}
