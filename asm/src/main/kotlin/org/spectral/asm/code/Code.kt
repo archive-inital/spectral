@@ -10,6 +10,9 @@ import org.spectral.asm.Method
  */
 class Code(val method: Method) {
 
+    /**
+     * The instruction list of this object.
+     */
     val instructions = Instructions(this)
 
 }

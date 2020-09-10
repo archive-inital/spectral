@@ -17,8 +17,6 @@ dependencies {
 
 idea {
     module {
-        sourceDirs += file('build/generated/source/kapt/main')
-        sourceDirs += file('build/generated/source/kaptKotlin/main')
         generatedSourceDirs += file('build/generated/source/kapt/main')
         generatedSourceDirs += file('build/generated/source/kaptKotlin/main')
     }

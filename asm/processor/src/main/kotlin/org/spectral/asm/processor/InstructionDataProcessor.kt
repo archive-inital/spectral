@@ -36,8 +36,8 @@ class InstructionDataProcessor : AbstractProcessor() {
             .primaryConstructor(
                 FunSpec.constructorBuilder()
                     .addParameter("opcode", Int::class)
-                    .addParameter("name", String::class)
-                    .addParameter("type", KClass::class.asClassName().parameterizedBy(TypeVariableName("*")))
+                    .addParameter("insnName", String::class)
+                    .addParameter("insnClass", KClass::class.asClassName().parameterizedBy(TypeVariableName("*")))
                     .build()
             )
 
@@ -51,6 +51,16 @@ class InstructionDataProcessor : AbstractProcessor() {
                 .addSuperclassConstructorParameter("%T::class", ClassName("org.spectral.asm.code.instruction", typeElement.simpleName.toString()))
                 .build())
         }
+
+        enum.addProperty(PropertySpec.builder("opcode", Int::class, KModifier.PUBLIC)
+                .initializer("opcode")
+                .build())
+            .addProperty(PropertySpec.builder("insnName", String::class, KModifier.PUBLIC)
+                .initializer("insnName")
+                .build())
+            .addProperty(PropertySpec.builder("insnClass", KClass::class.asClassName().parameterizedBy(TypeVariableName("*")))
+                .initializer("insnClass")
+                .build())
 
         FileSpec.builder("org.spectral.asm.code", "InstructionType")
             .addType(enum.build())
