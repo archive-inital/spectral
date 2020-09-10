@@ -33,6 +33,8 @@ object JarUtil {
                 }
         }
 
+        pool.initialize()
+
         return pool
     }
 }
