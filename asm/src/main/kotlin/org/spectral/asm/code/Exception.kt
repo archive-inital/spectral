@@ -1,6 +1,5 @@
 package org.spectral.asm.code
 
-import org.spectral.asm.Exceptions
 import org.spectral.asm.code.instruction.Label
 
 /**

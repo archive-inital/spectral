@@ -2,6 +2,7 @@ package org.spectral.asm
 
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.Type
+import org.spectral.asm.code.Code
 import org.spectral.asm.signature.Signature
 
 /**
@@ -23,6 +24,11 @@ class Method(val owner: Class, override var name: String, var signature: Signatu
      * The ASM method [Type] object.
      */
     override lateinit var type: Type
+
+    /**
+     * The [Code] block of instructions for this method.
+     */
+    lateinit var code: Code
 
     /**
      * A list of exception class names which can be thrown by this method.
