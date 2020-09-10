@@ -37,6 +37,11 @@ abstract class Instruction(var insns: Instructions, var type: InstructionType) :
     }
 
     /**
+     * Looks up the symbols from the pool.
+     */
+    open fun lookupSymbols() { }
+
+    /**
      * Regenerates the constant pool of this instruction.
      */
     open fun regeneratePool() { }

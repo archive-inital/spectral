@@ -80,6 +80,31 @@ class Class(var pool: ClassPool) : Node {
     val methods = mutableListOf<Method>()
 
     /**
+     * Resets or clears the class graph field data.
+     */
+    fun clearClassGraph() {
+        parent = null
+        children.clear()
+    }
+
+    /**
+     * Builds / calculates the class graph information for the current
+     * class.
+     *
+     * This method builds and sets the parent and children data for this class.
+     */
+    fun buildClassGraph() {
+        pool.findClass(superName)?.let {
+            this.parent = it
+            it.children.add(this)
+        }
+
+        interfaces.asList().forEach { itf ->
+            pool.findClass(itf)?.children?.add(this)
+        }
+    }
+
+    /**
      * Gets whether this class is an instance of [other]'s [Class].
      *
      * @param other The [Class] to compare.

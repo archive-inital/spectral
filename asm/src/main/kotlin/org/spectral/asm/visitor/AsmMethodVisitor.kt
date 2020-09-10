@@ -49,6 +49,33 @@ class AsmMethodVisitor(
         code = Code(method)
     }
 
+    override fun visitTryCatchBlock(start: Label, end: Label, handler: Label, type: String?) {
+        val exceptions = code.exceptions
+        val e = Exception(exceptions)
+
+        val insns = code.instructions
+
+        val startLabel = insns.findOrCreateLabel(start)
+        val endLabel = insns.findOrCreateLabel(end)
+        val handlerLabel = insns.findOrCreateLabel(handler)
+
+        e.start = startLabel
+        e.end = endLabel
+        e.handler = handlerLabel
+
+        if(type != null) {
+            e.catchType = type
+        }
+
+        exceptions.add(e)
+    }
+
+    override fun visitLineNumber(line: Int, start: Label) {
+        code.instructions.findLabel(start)?.let {
+            it.lineNumber = line
+        }
+    }
+
     override fun visitEnd() {
         if(::code.isInitialized) {
             method.code = code

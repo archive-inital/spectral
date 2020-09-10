@@ -50,6 +50,32 @@ class ClassPool : Iterable<Class> {
     }
 
     /**
+     * Gets a [Class] from the pool with a given name.
+     * Returns null if none is found.
+     *
+     * @param name String
+     * @return Class?
+     */
+    fun findClass(name: String): Class? {
+        return classes.firstOrNull { it.name == name }
+    }
+
+    /**
+     * Runs an initialization logic for the class pool.
+     */
+    fun initialize() {
+        buildClassGraph()
+    }
+
+    /**
+     * Rebuilds the class graph for each [Class] in the pool.
+     */
+    fun buildClassGraph() {
+        classes.forEach { it.clearClassGraph() }
+        classes.forEach { it.buildClassGraph() }
+    }
+
+    /**
      * Gets a [Class] in the pool with a provided class name.
      *
      * If no class is found with the provided name, the method returns null.
