@@ -15,4 +15,9 @@ class Code(val method: Method) {
      */
     val instructions = Instructions(this)
 
+    /**
+     * The exceptions contained in this code block.
+     */
+    val exceptions = Exceptions(this)
+
 }
