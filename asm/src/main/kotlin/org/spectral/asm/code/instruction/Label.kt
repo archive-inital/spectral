@@ -53,11 +53,11 @@ class Label(insns: Instructions) : Nop(insns) {
      */
     fun next(): Instruction {
         val insns = insns
-        var i = insns.instructions.indexOf(this)
+        var i = insns.asList().indexOf(this)
 
         var next: Instruction
         do {
-            next = insns.instructions[i + 1]
+            next = insns.asList()[i + 1]
             ++i
         } while (next is org.spectral.asm.code.instruction.Label)
 
