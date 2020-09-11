@@ -1,8 +1,0 @@
-description = "Spectral ASM Annotation Processor"
-
-apply plugin: 'kotlin-kapt'
-
-dependencies {
-    implementation project(":asm:asm-annotation")
-    implementation "com.squareup:kotlinpoet:$kotlinpoet"
-}

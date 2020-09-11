@@ -1,17 +1,1 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        jcenter()
-        mavenCentral()
-    }
-}
-
 rootProject.name = 'spectral'
-
-include ':asm'
-include ':asm:asm-annotation'
-include ':asm:asm-processor'
-include ':util'
-
-project(":asm:asm-annotation").projectDir = file("asm/annotation")
-project(":asm:asm-processor").projectDir = file("asm/processor")
