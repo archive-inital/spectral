@@ -11,6 +11,25 @@ class ClassPool {
 
     val classes: List<Class> get() = classMap.values.toList()
 
+    val size: Int get() = classes.size
+
+    fun add(classFile: File) {
+        add(classFile.inputStream().readAllBytes())
+    }
+
+    fun add(bytes: ByteArray) {
+        val node = ClassNode()
+        val reader = ClassReader(bytes)
+
+        reader.accept(node, ClassReader.SKIP_FRAMES)
+
+        add(node)
+    }
+
+    fun add(node: ClassNode) {
+        add(Class(this, node))
+    }
+
     fun add(entry: Class) {
         if(!classes.contains(entry)) {
             classMap[entry.name] = entry
@@ -23,6 +42,10 @@ class ClassPool {
 
     operator fun get(name: String): Class? = classMap[name]
 
+    operator fun set(name: String, cls: Class) {
+        classMap[name] = cls
+    }
+
     companion object {
 
         fun loadJar(file: File): ClassPool {
@@ -32,12 +55,7 @@ class ClassPool {
                 jar.entries().asSequence()
                     .filter { it.name.endsWith(".class") }
                     .forEach {
-                        val node = ClassNode()
-                        val reader = ClassReader(jar.getInputStream(it))
-
-                        reader.accept(node, ClassReader.SKIP_FRAMES)
-
-                        pool.add(Class(pool, node))
+                        pool.add(jar.getInputStream(it).readAllBytes())
                     }
             }
 

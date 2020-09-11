@@ -1,3 +1,5 @@
+apply plugin: 'java'
+
 dependencies {
     implementation "org.ow2.asm:asm:$asm"
     implementation "org.ow2.asm:asm-commons:$asm"
