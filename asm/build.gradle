@@ -5,4 +5,5 @@ dependencies {
     implementation "org.ow2.asm:asm-commons:$asm"
     implementation "org.ow2.asm:asm-util:$asm"
     implementation "org.ow2.asm:asm-tree:$asm"
+    implementation "com.github.spectral-powered:SimAnalyzer:$simanalyzer"
 }
