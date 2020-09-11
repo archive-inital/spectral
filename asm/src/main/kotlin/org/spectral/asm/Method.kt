@@ -26,8 +26,40 @@ class Method(val owner: Class, internal val node: MethodNode) : Node {
 
     val tryCatchBlocks = node.tryCatchBlocks.toMutableList()
 
-    fun accept(visitor: MethodVisitor) {
+    var maxStack = node.maxStack
 
+    var maxLocals = node.maxLocals
+
+    fun process() {
+
+    }
+
+    fun accept(visitor: MethodVisitor) {
+        node.parameters?.forEach {
+            visitor.visitParameter(it.name, it.access)
+        }
+
+        node.visibleAnnotations?.forEach {
+            it.accept(visitor.visitAnnotation(it.desc, true))
+        }
+
+        visitor.visitCode()
+        tryCatchBlocks.forEach {
+            visitor.visitTryCatchBlock(
+                    it.start.label,
+                    it.end.label,
+                    it.handler.label,
+                    it.type
+            )
+        }
+
+        instructions.forEach {
+            it.accept(visitor)
+        }
+
+        visitor.visitMaxs(maxStack, maxLocals)
+
+        visitor.visitEnd()
     }
 
     override fun toString(): String {

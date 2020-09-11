@@ -28,11 +28,18 @@ class Class(val pool: ClassPool, internal val node: ClassNode) : Node {
 
     val fields = node.fields.map { Field(this, it) }
 
+    fun process() {
+
+
+        methods.forEach { it.process() }
+        fields.forEach { it.process() }
+    }
+
     fun accept(visitor: ClassVisitor) {
         visitor.visit(version, access, name, null, superName, interfaces.toTypedArray())
         visitor.visitSource(source, null)
 
-        node.visibleAnnotations.forEach {
+        node.visibleAnnotations?.forEach {
             it.accept(visitor.visitAnnotation(it.desc, true))
         }
 

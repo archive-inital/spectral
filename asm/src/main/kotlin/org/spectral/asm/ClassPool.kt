@@ -13,9 +13,20 @@ class ClassPool {
 
     private val classMap = hashMapOf<String, Class>()
 
-    val classes: List<Class> get() = classMap.values.toList()
+    val classes: List<Class> get() {
+        return classMap.values.toList()
+    }
 
     val size: Int get() = classes.size
+
+    private var processed = false
+
+    fun process() {
+        if(processed) throw IllegalStateException("Pool has already been processed.")
+        processed = true
+
+        classes.forEach { it.process() }
+    }
 
     fun add(classFile: File) {
         add(classFile.inputStream().readAllBytes())
@@ -51,12 +62,16 @@ class ClassPool {
     }
 
     fun saveJar(file: File) {
+        if(file.exists()) {
+            file.delete()
+        }
+
         val jos = JarOutputStream(FileOutputStream(file))
 
         this.classes.forEach { cls ->
             jos.putNextEntry(JarEntry(cls.name + ".class"))
 
-            val writer = ClassWriter(ClassWriter.COMPUTE_FRAMES)
+            val writer = ClassWriter(ClassWriter.COMPUTE_MAXS)
             cls.accept(writer)
 
             jos.write(writer.toByteArray())
@@ -78,6 +93,8 @@ class ClassPool {
                         pool.add(jar.getInputStream(it).readAllBytes())
                     }
             }
+
+            pool.process()
 
             return pool
         }

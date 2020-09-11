@@ -18,8 +18,16 @@ class Field(val owner: Class, internal val node: FieldNode) : Node {
 
     var value = node.value
 
-    fun accept(visitor: FieldVisitor) {
+    fun process() {
 
+    }
+
+    fun accept(visitor: FieldVisitor) {
+        node.visibleAnnotations?.forEach {
+            it.accept(visitor.visitAnnotation(it.desc, true))
+        }
+
+        visitor.visitEnd()
     }
 
     override fun toString(): String {
