@@ -1,6 +1,7 @@
-package org.spectral.asm.execution
+package org.spectral.asm.execution.context
 
 import me.coley.analysis.value.AbstractValue
+import org.spectral.asm.execution.ExecutionState
 
 /**
  * Represents a variable that has been accessed or modified from the

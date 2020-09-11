@@ -4,6 +4,8 @@ import me.coley.analysis.value.AbstractValue
 import org.objectweb.asm.tree.AbstractInsnNode
 import org.objectweb.asm.tree.analysis.Frame
 import org.spectral.asm.Method
+import org.spectral.asm.execution.context.StackContext
+import org.spectral.asm.execution.context.VariableContext
 import java.util.*
 
 /**
@@ -15,6 +17,19 @@ import java.util.*
  * @constructor
  */
 class ExecutionState(val insn: AbstractInsnNode, frame: Frame<AbstractValue>) {
+
+    /**
+     * The previous execution state.
+     * If this state instance is an entrypoint, this value can be
+     * null.
+     */
+    var prev: ExecutionState? = null
+
+    /**
+     * The Next execution state.
+     * If this state instance is a terminal state, this value will be null.
+     */
+    var next: ExecutionState? = null
 
     /**
      * The values which got pushed to the stack during this execution
