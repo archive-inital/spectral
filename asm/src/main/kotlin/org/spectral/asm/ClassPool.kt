@@ -1,9 +1,13 @@
 package org.spectral.asm
 
 import org.objectweb.asm.ClassReader
+import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.tree.ClassNode
 import java.io.File
+import java.io.FileOutputStream
+import java.util.jar.JarEntry
 import java.util.jar.JarFile
+import java.util.jar.JarOutputStream
 
 class ClassPool {
 
@@ -44,6 +48,22 @@ class ClassPool {
 
     operator fun set(name: String, cls: Class) {
         classMap[name] = cls
+    }
+
+    fun saveJar(file: File) {
+        val jos = JarOutputStream(FileOutputStream(file))
+
+        this.classes.forEach { cls ->
+            jos.putNextEntry(JarEntry(cls.name + ".class"))
+
+            val writer = ClassWriter(ClassWriter.COMPUTE_FRAMES)
+            cls.accept(writer)
+
+            jos.write(writer.toByteArray())
+            jos.closeEntry()
+        }
+
+        jos.close()
     }
 
     companion object {

@@ -10,7 +10,7 @@ class Method(val owner: Class, internal val node: MethodNode) : Node {
 
     override var name = node.name
 
-    val desc get() = Type.getMethodType(returnType, *argumentTypes.toTypedArray())
+    val desc get() = Type.getMethodType(returnType, *argumentTypes.toTypedArray()).toString()
 
     override var access = node.access
 
