@@ -74,13 +74,9 @@ object Launcher : Injectable {
             /*
              * Create any directories which do not exist.
              */
-            if(!dir.toFile().exists()) {
-                val file = dir.toFile()
-                file.mkdirs()
-                println("Created dir: ${file.path}")
+            if(!Files.exists(dir)) {
+                Files.createDirectories(dir)
             }
-
-            println("Exists: ${dir.toFile().absolutePath}")
         }
     }
 
