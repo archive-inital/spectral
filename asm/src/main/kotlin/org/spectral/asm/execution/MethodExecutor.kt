@@ -186,7 +186,7 @@ class MethodExecutor(val method: Method) {
         /*
          * Terminate if we reach the end of the available instructions
          */
-        if(currentIndex < method.instructions.size()) {
+        if(++currentIndex >= method.instructions.size()) {
             terminated = true
             return
         }
@@ -194,8 +194,10 @@ class MethodExecutor(val method: Method) {
         /*
          * Update all the current executor states to the next frame / next state.
          */
-        currentInsn = method.instructions[++currentIndex]
+
+        currentInsn = method.instructions[currentIndex]
         currentFrame = instructionFrames[currentIndex]
+
         currentExecutionState = ExecutionState(currentInsn, currentFrame)
 
         /*
