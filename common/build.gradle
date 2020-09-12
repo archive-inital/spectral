@@ -1,1 +1,7 @@
 description = "Spectral Commons"
+
+dependencies {
+    api "org.koin:koin-core:$koin"
+    api "org.koin:koin-core-ext:$koin"
+    testApi "org.koin:koin-test:$koin"
+}

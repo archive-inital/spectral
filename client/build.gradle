@@ -1,1 +1,18 @@
 description = "Spectral Client"
+
+apply plugin: 'application'
+
+dependencies {
+    implementation project(":common")
+
+    implementation "org.koin:koin-core:$koin"
+    implementation "org.koin:koin-core-ext:$koin"
+    implementation "com.github.ajalt.clikt:clikt:$clikt"
+
+    testImplementation "org.koin:koin-test:$koin"
+}
+
+run {
+    mainClassName = "org.spectral.client.Launcher"
+    workingDir = rootProject.projectDir
+}
