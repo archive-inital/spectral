@@ -12,25 +12,33 @@ allprojects {
     apply plugin: 'org.jetbrains.kotlin.jvm'
 
     group 'org.spectral'
-    version '1.0.0'
+    version '0.0.1'
 
     repositories {
         mavenLocal()
         mavenCentral()
         jcenter()
-        maven { url 'https://repo.spectralclient.org/repository/spectral/' }
+        maven { url 'https://jitpack.io' }
     }
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib"
+        implementation "org.jetbrains.kotlin:kotlin-reflect"
 
         implementation "com.google.guava:guava:$guava"
+        implementation "org.tinylog:tinylog-api-kotlin:$tinylog"
+        implementation "org.tinylog:tinylog-impl:$tinylog"
 
         testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek"
-        testImplementation "io.mockk:mockk:$mockk"
-        testImplementation "org.jetbrains.kotlin:kotlin-test"
-        testImplementation "com.natpryce:hamkrest:$hamkrest"
         testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:$spek"
         testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect"
+        testImplementation "io.mockk:mockk:$mockk"
+        testImplementation "com.natpryce:hamkrest:$hamkrest"
+    }
+
+    test {
+        useJUnitPlatform {
+            includeEngines 'spek2'
+        }
     }
 }
