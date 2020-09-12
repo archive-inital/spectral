@@ -15,7 +15,7 @@ enum class Platform(val dataDir: Path) {
     /**
      * Windows Operating System
      */
-    WINDOWS(Paths.get(System.getenv("AppData")).resolve("Roaming/")),
+    WINDOWS(Paths.get(System.getenv("AppData"))),
 
     /**
      * Apple / Mac Operating System

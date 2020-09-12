@@ -1,5 +1,7 @@
 package org.spectral.client
 
+import org.spectral.common.logger.logger
+
 /**
  * The Main Spectral Client Object.
  *
@@ -11,5 +13,11 @@ package org.spectral.client
  */
 class Spectral(val context: SpectralContext) {
 
+    /**
+     * Starts the spectral client.
+     */
+    fun start() {
+        logger.info("Initializing...")
 
+    }
 }

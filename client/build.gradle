@@ -4,6 +4,7 @@ apply plugin: 'application'
 
 dependencies {
     implementation project(":common")
+    implementation project(":util")
 
     implementation "org.koin:koin-core:$koin"
     implementation "org.koin:koin-core-ext:$koin"

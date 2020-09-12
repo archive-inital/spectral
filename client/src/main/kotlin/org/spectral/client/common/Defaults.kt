@@ -14,4 +14,15 @@ object Defaults {
      * on the users running platform.
      */
     const val SPECTRAL_DIR = "spectral/"
+
+    /**
+     * The default required directory paths.
+     */
+    internal val DEFAULT_DIRS = arrayOf(
+        "plugins/",
+        "logs/",
+        "bin/",
+        "mappings/",
+        "config/"
+    )
 }

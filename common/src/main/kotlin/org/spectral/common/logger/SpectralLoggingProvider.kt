@@ -6,6 +6,7 @@ import org.tinylog.core.TinylogLoggingProvider
 import org.tinylog.format.MessageFormatter
 import org.tinylog.provider.ContextProvider
 import org.tinylog.provider.LoggingProvider
+import java.io.File
 
 /**
  * An implementation of the rolling file logger for the spectral client.
@@ -33,7 +34,20 @@ class SpectralLoggingProvider : LoggingProvider {
         method.isAccessible = true
 
         val config = method.invoke(null) as MutableMap<String, String>
-        config["writer2.file"] = filePath
+
+        /*
+         * Build the config
+         */
+        config["writer2"] = "rolling file"
+        config["writer2.level"] = "debug"
+        config["writer2.format"] = "{date:yyyy-MM-dd HH:mm:ss.SSS|min-size=10} | {level|min-size=4} | {thread|min-size=4} | {message}"
+        config["writer2.file"] = filePath + File.separator + "client_{date}_{count}.log"
+        config["writer2.latest"] = filePath + File.separator + "latest.log"
+        config["writer2.charset"] = "UTF-8"
+        config["writer2.buffered"] = "true"
+        config["writer2.policies"] = "size: 25mb"
+        config["writer2.backups"] = "50"
+        config["writer2.provider"] = "spectral"
 
         val frozen = Configuration::class.java.getDeclaredField("frozen")
         frozen.isAccessible = true
