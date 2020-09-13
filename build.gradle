@@ -41,4 +41,8 @@ allprojects {
             includeEngines 'spek2'
         }
     }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = 11
+    }
 }

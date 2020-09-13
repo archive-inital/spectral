@@ -6,12 +6,8 @@ package org.spectral.client
  * the client.
  *
  * @property verbose Boolean
- * @property developerMode Boolean
- * @property jagexUrl String
  * @constructor
  */
 data class SpectralContext(
-    val verbose: Boolean,
-    val developerMode: Boolean,
-    val jagexUrl: String
+    val verbose: Boolean
 )
