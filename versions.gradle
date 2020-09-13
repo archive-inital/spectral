@@ -12,4 +12,5 @@ ext {
     rxkotlin = "3.0.0"
     rxkotlinfx = "2.2.2"
     konf = "0.22.1"
+    coroutines = "1.3.9"
 }

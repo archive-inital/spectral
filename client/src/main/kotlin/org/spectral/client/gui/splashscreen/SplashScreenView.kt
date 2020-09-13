@@ -2,6 +2,7 @@ package org.spectral.client.gui.splashscreen
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
+import javafx.application.Platform
 import javafx.geometry.Pos
 import javafx.scene.image.Image
 import javafx.scene.text.Font
@@ -36,7 +37,7 @@ class SplashScreenView : View("Spectral") {
             prefWidth = 300.0
 
             splashScreenManager.progressObservable.subscribe {
-                this.progress = it
+                Platform.runLater { this.progress = it }
             }
         }
 
@@ -45,7 +46,7 @@ class SplashScreenView : View("Spectral") {
             font = Font(14.0)
 
             splashScreenManager.statusObservable.subscribe {
-                this.text = it
+                Platform.runLater { this.text = it }
             }
         }
     }

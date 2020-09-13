@@ -17,6 +17,7 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxkotlin:$rxkotlin"
     implementation "com.github.thomasnield:rxkotlinfx:$rxkotlinfx"
     implementation "com.github.uchuhimo:konf:$konf"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
 
     testImplementation "org.koin:koin-test:$koin"
 }

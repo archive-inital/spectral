@@ -25,6 +25,11 @@
     -aqua: #6ECFCF;
 }
 
+@font-face {
+    font-family: 'spectral';
+    src: url('fonts/spectral.ttf');
+}
+
 .root {
     -fx-base: -black;
     -fx-background-color: -black-dark;
@@ -34,10 +39,15 @@
     -fx-accent: -black-light;
     -fx-focus-color: -black-light;
     -fx-text-base-color: -white;
+    -fx-border-color: derive(-black-dark, -25%);
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+    -fx-font-family: 'roboto';
 }
 
 .label {
     -fx-text-fill: -white;
+    -fx-font-family: 'roboto';
 }
 
 /*******************************************************************************

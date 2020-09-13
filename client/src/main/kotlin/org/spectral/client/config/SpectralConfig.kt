@@ -42,6 +42,16 @@ class SpectralConfig {
     }
 
     /**
+     * Sets a given configuration item.
+     *
+     * @param item Item<T>
+     * @param value T
+     */
+    operator fun <T> set(item: Item<T>, value: T) {
+        config[item] = value
+    }
+
+    /**
      * Loads the configuration file from the [filePath]
      */
     fun load() {
@@ -60,13 +70,14 @@ class SpectralConfig {
     /**
      * Saves the current [config] object to the [filePath]
      */
-    private fun save() {
+    fun save() {
         config.toYaml.toFile(filePath.toFile())
     }
 
     companion object : ConfigSpec("spectral") {
-        val DEV_MODE by optional(false, "dev_mode")
-        val AUTO_UPDATE by optional(true, "auto_update")
-        val JAGEX_URL by optional("http://oldschool1.runescape.com/", "jagex_url")
+        val DEV_MODE by optional(false, "dev-mode")
+        val AUTO_UPDATE by optional(true, "auto-update")
+        val JAGEX_URL by optional("http://oldschool1.runescape.com/", "jagex-url")
+        val RAW_GAMEPACK_CHECKSUM by optional("", "raw-gamepack-checksum")
     }
 }

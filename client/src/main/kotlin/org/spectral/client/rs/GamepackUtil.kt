@@ -10,7 +10,7 @@ import kotlin.system.exitProcess
 /**
  * Utility for downloading the RAW Jagex gampack to a Jar file.
  */
-object GamepackDownloader {
+object GamepackUtil {
 
     /**
      * Downloads the Jagex gampack from the jav config
