@@ -42,6 +42,16 @@ class SpectralConfig {
     }
 
     /**
+     * Sets a given configuration item.
+     *
+     * @param item Item<T>
+     * @param value T
+     */
+    operator fun <T> set(item: Item<T>, value: T) {
+        config[item] = value
+    }
+
+    /**
      * Loads the configuration file from the [filePath]
      */
     fun load() {
@@ -60,7 +70,7 @@ class SpectralConfig {
     /**
      * Saves the current [config] object to the [filePath]
      */
-    private fun save() {
+    fun save() {
         config.toYaml.toFile(filePath.toFile())
     }
 
