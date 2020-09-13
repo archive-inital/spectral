@@ -13,8 +13,6 @@ class SpectralCommand : CliktCommand(
 ) {
 
     private val verbose by option("-v", "--verbose", help = "Enables verbose logging mode.").flag(default = false)
-    private val developerMode by option("--dev", help = "Enables developer mode.").flag(default = false)
-    private val jagexUrl by option("--jagexUrl", help = "The jagex url to use for resource downloads.").default("http://oldschool1.runescape.com")
 
     /**
      * Run the root command.
@@ -24,9 +22,7 @@ class SpectralCommand : CliktCommand(
          * Create the spectral context.
          */
         val context = SpectralContext(
-            verbose = verbose,
-            developerMode = developerMode,
-            jagexUrl = jagexUrl
+            verbose = verbose
         )
 
         /*

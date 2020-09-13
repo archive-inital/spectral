@@ -4,9 +4,11 @@ import org.koin.core.inject
 import org.spectral.client.config.SpectralConfig
 import org.spectral.client.gui.splashscreen.SplashScreen
 import org.spectral.client.gui.splashscreen.SplashScreenManager
+import org.spectral.client.rs.JavConfig
 import org.spectral.common.Injectable
 import org.spectral.common.logger.logger
 import tornadofx.launch
+import java.net.URL
 
 /**
  * The Main Spectral Client Object.
@@ -32,7 +34,7 @@ class Spectral(val context: SpectralContext) : Injectable {
     /**
      * The jagex configuration map.
      */
-    lateinit var javConfig: Map<String, String>
+    lateinit var javConfig: JavConfig private set
 
     /**
      * Starts the spectral client.
@@ -60,6 +62,11 @@ class Spectral(val context: SpectralContext) : Injectable {
 
         splashScreenManager.progress = 0.1
         splashScreenManager.status = "Preparing client..."
+
+        /*
+         * Download the JAV_CONFIG.
+         */
+        this.downloadJavConfig()
     }
 
     /**
@@ -68,5 +75,27 @@ class Spectral(val context: SpectralContext) : Injectable {
     private fun launchSplashScreen() {
         logger.info("Launching splash screen.")
         launch<SplashScreen>()
+    }
+
+    /**
+     * Downloads the JAV_CONFIG from the url set in the server configuration
+     * file located with the name: spectral.yml.
+     */
+    private fun downloadJavConfig() {
+        val javConfigUrl = URL(config[SpectralConfig.JAGEX_URL] + "jav_config.ws")
+
+        logger.info("Downloading the Jagex configuration from: '${javConfigUrl.path}'.")
+
+        /*
+         * Update the splash screen
+         */
+        splashScreenManager.progress += 0.1
+        splashScreenManager.status = "Downloading Jagex configuration..."
+
+        /*
+         * Download and set the JAV_CONFIG
+         */
+        javConfig = JavConfig(javConfigUrl)
+        javConfig.download()
     }
 }
