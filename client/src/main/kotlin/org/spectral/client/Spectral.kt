@@ -78,6 +78,9 @@ class Spectral(val context: SpectralContext) : Injectable {
          * the last launch.
          */
         this.checkGamepackChecksum()
+
+        appletManager.createClient()
+        gui.currentApplet = appletManager.applets.first()
     }
 
     /**

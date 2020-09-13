@@ -10,8 +10,10 @@ import org.spectral.client.gui.view.FXFrameView
 import org.spectral.common.Injectable
 import org.spectral.common.logger.logger
 import tornadofx.find
+import java.applet.Applet
 import java.awt.BorderLayout
 import java.awt.GridLayout
+import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import javax.swing.WindowConstants
@@ -35,20 +37,25 @@ class Gui : Injectable {
     private lateinit var app: SpectralApp
     private lateinit var fxFrameWrapper: JFXPanel
 
+    lateinit var currentApplet: Applet
+
     fun showFrame() {
         logger.info("Building Java Swing processes.")
         SwingUtilities.invokeLater {
-            frame.layout = BorderLayout()
+            frame.layout = null
             frame.title = "Spectral"
 
-            frame.add(fxFrameWrapper, BorderLayout.PAGE_START)
+            fxFrameWrapper.setBounds(0, 0, currentApplet.width + 6, currentApplet.height + 72)
+            currentApplet.setBounds(3, 67, currentApplet.width, currentApplet.height)
 
-            appletManager.createClient()
+            frame.add(currentApplet)
+            frame.add(fxFrameWrapper)
 
-            val initialApplet = appletManager.applets.first()
-            frame.add(initialApplet, BorderLayout.CENTER)
-            frame.size = initialApplet.preferredSize
-            frame.pack()
+            frame.size = fxFrameWrapper.size
+            frame.maximumSize = frame.size
+
+            frame.isUndecorated = true
+            frame.iconImage = ImageIcon(ClassLoader.getSystemResource("spectral-app.png")).image
 
             frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
             frame.setLocationRelativeTo(null)
