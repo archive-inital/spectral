@@ -1,15 +1,17 @@
 package org.spectral.client
 
 import org.koin.core.inject
+import org.spectral.client.common.Defaults
 import org.spectral.client.config.SpectralConfig
 import org.spectral.client.gui.splashscreen.SplashScreen
 import org.spectral.client.gui.splashscreen.SplashScreenManager
-import org.spectral.client.rs.GamepackDownloader
+import org.spectral.client.rs.GamepackUtil
 import org.spectral.client.rs.JavConfig
 import org.spectral.common.Injectable
 import org.spectral.common.logger.logger
+import org.spectral.util.Checksum
+import org.spectral.util.Platform
 import tornadofx.launch
-import java.net.URL
 import kotlin.system.exitProcess
 
 /**
@@ -36,7 +38,13 @@ class Spectral(val context: SpectralContext) : Injectable {
     /**
      * The jagex configuration map.
      */
-    lateinit var javConfig: JavConfig private set
+    private lateinit var javConfig: JavConfig private set
+
+    /**
+     * Whether there was a revision update since last client
+     * launch.
+     */
+    private var revisionUpdate = false
 
     /**
      * Starts the spectral client.
@@ -74,6 +82,11 @@ class Spectral(val context: SpectralContext) : Injectable {
          * Download the gamepack to Jar file.
          */
         this.downloadGamepack()
+
+        /*
+         * Check if the gamepack has updated since the last launch.
+         */
+        this.checkForRevisionUpdate()
     }
 
     /**
@@ -126,6 +139,41 @@ class Spectral(val context: SpectralContext) : Injectable {
         /*
          * Download the gamepack and save the Jar file.
          */
-        GamepackDownloader.downloadGamepack(this.javConfig)
+        GamepackUtil.downloadGamepack(this.javConfig)
+    }
+
+    /**
+     * Checks the latest Gamepack JAR file checksum and compares it to the one
+     * saved in the Spectral configuration file.
+     *
+     * If they differ, we conclude there was a revision update since the
+     * last launch of the client.
+     */
+    private fun checkForRevisionUpdate() {
+        logger.info("Checking gamepack MD5 checksums.")
+
+        splashScreenManager.progress += 0.05
+        splashScreenManager.status = "Verifying gamepack MD5 checksum..."
+
+        val gamepackFile = Platform.currentPlatform.dataDir
+            .resolve(Defaults.SPECTRAL_DIR)
+            .resolve("bin/gamepack-raw.jar")
+            .toFile()
+
+        /*
+         * The latest gamepack JAR MD5 checksum.
+         */
+        val latestMD5 = Checksum.md5(gamepackFile)
+        val lastMD5 = config[SpectralConfig.RAW_GAMEPACK_CHECKSUM]
+
+        logger.info("Latest gamepack MD5: '${latestMD5}' Last gamepack MD5: '${lastMD5}'")
+
+        if(lastMD5 != latestMD5) {
+            revisionUpdate = false
+            logger.info("No revision update detected. Continuing with client launch.")
+        } else {
+            revisionUpdate = true
+            logger.info("Detected a client revision update.")
+        }
     }
 }

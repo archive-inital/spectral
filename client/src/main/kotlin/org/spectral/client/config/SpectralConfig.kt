@@ -75,8 +75,9 @@ class SpectralConfig {
     }
 
     companion object : ConfigSpec("spectral") {
-        val DEV_MODE by optional(false, "dev_mode")
-        val AUTO_UPDATE by optional(true, "auto_update")
-        val JAGEX_URL by optional("http://oldschool1.runescape.com/", "jagex_url")
+        val DEV_MODE by optional(false, "dev-mode")
+        val AUTO_UPDATE by optional(true, "auto-update")
+        val JAGEX_URL by optional("http://oldschool1.runescape.com/", "jagex-url")
+        val RAW_GAMEPACK_CHECKSUM by optional("", "raw-gamepack-checksum")
     }
 }
