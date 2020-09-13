@@ -2,6 +2,7 @@ package org.spectral.client.config
 
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.ConfigSpec
+import com.uchuhimo.konf.Item
 import com.uchuhimo.konf.source.yaml
 import com.uchuhimo.konf.source.yaml.toYaml
 import org.spectral.client.common.Defaults
@@ -29,6 +30,16 @@ class SpectralConfig {
      * The [Path] to the [fileName] depending on platform.
      */
     private val filePath = Platform.currentPlatform.dataDir.resolve(Defaults.SPECTRAL_DIR).resolve("config/$fileName")
+
+    /**
+     * Gets a given item from the loaded configuration file.
+     *
+     * @param item Item<T>
+     * @return T
+     */
+    operator fun <T> get(item: Item<T>): T {
+        return config[item]
+    }
 
     /**
      * Loads the configuration file from the [filePath]
