@@ -18,16 +18,15 @@ class JavConfig(val url: String) {
      * @param key String
      * @return String
      */
-    operator fun get(key: String): String {
-        if(!data.containsKey(key)) throw IllegalArgumentException("Key: '$key' not found in the JAV_CONFIG data.")
-        return data[key]!!
+    operator fun get(key: String): String? {
+        return data[key]
     }
 
     /**
      * Downloads and parsed the Jagex JAV_CONFIG from the [url].
      */
     fun download() {
-        val lines = URL(url + "jav_config.ws").readText(Charsets.UTF_8).split("\n")
+        val lines = URL(url + "jav_config.ws").readText().split("\n")
 
         lines.forEach {
             var line = it

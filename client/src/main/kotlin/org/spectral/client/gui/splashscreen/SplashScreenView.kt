@@ -1,12 +1,12 @@
 package org.spectral.client.gui.splashscreen
 
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.PublishSubject
-import javafx.application.Platform
 import javafx.geometry.Pos
 import javafx.scene.image.Image
 import javafx.scene.text.Font
+import org.spectral.client.Spectral
+import org.spectral.client.gui.Gui
 import tornadofx.*
+import kotlin.concurrent.thread
 
 /**
  * The JavaFX splash screen window view.
@@ -15,7 +15,8 @@ import tornadofx.*
  */
 class SplashScreenView : View("Spectral") {
 
-    private val splashScreenManager: SplashScreenManager by di()
+    private val gui: Gui by di()
+    private val spectral: Spectral by di()
 
     override val root = vbox {
         alignment = Pos.CENTER
@@ -33,20 +34,22 @@ class SplashScreenView : View("Spectral") {
             paddingBottom = 40.0
         }
 
-        progressbar(0.0) {
+        progressbar(0.1) {
             prefWidth = 300.0
-
-            splashScreenManager.progressObservable.subscribe {
-                Platform.runLater { this.progress = it }
-            }
         }
 
-        label("") {
+        label("Preparing client...") {
             paddingTop = 16.0
             font = Font(14.0)
+        }
+    }
 
-            splashScreenManager.statusObservable.subscribe {
-                Platform.runLater { this.text = it }
+    override fun onDock() {
+        thread {
+            spectral.preStart()
+            runLater {
+                close()
+                gui.showFrame()
             }
         }
     }
