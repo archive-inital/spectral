@@ -1,14 +1,14 @@
 package org.spectral.client
 
 import org.koin.dsl.module
-import org.spectral.client.gui.splashscreen.SplashScreenController
+import org.spectral.client.gui.splashscreen.SplashScreenManager
 
 val module = module {
     /*
      * Singletons
      */
     single { (context: SpectralContext) -> Spectral(context) }
-    single { SplashScreenController() }
+    single { SplashScreenManager() }
 
     /*
      * Factories

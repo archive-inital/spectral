@@ -1,9 +1,9 @@
 package org.spectral.client.gui.splashscreen
 
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javafx.geometry.Pos
-import javafx.scene.control.ProgressBar
 import javafx.scene.image.Image
-import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import tornadofx.*
 
@@ -14,12 +14,12 @@ import tornadofx.*
  */
 class SplashScreenView : View("Spectral") {
 
-    private val controller: SplashScreenController by inject()
+    private val splashScreenManager: SplashScreenManager by di()
 
     override val root = vbox {
         alignment = Pos.CENTER
 
-        setPrefSize(450.0, 400.0)
+        setPrefSize(425.0, 375.0)
 
         imageview(Image("/spectral.png")) {
             fitWidth = 96.0
@@ -35,7 +35,7 @@ class SplashScreenView : View("Spectral") {
         progressbar(0.0) {
             prefWidth = 300.0
 
-            controller.progress.subscribe {
+            splashScreenManager.progressObservable.subscribe {
                 this.progress = it
             }
         }
@@ -44,12 +44,9 @@ class SplashScreenView : View("Spectral") {
             paddingTop = 16.0
             font = Font(14.0)
 
-            controller.status.subscribe {
+            splashScreenManager.statusObservable.subscribe {
                 this.text = it
             }
         }
-    }
-
-    init {
     }
 }

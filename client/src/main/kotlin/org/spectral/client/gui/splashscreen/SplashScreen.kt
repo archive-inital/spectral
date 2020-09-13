@@ -1,8 +1,11 @@
 package org.spectral.client.gui.splashscreen
 
+import javafx.application.Application
+import javafx.application.Platform
 import javafx.scene.image.Image
 import javafx.stage.Stage
 import javafx.stage.StageStyle
+import org.spectral.client.Spectral
 import org.spectral.common.Injectable
 import tornadofx.*
 import kotlin.reflect.KClass
@@ -37,14 +40,10 @@ class SplashScreen : App(SplashScreenView::class, SplashScreenStyles::class) {
          */
         stage.initStyle(StageStyle.UNDECORATED)
         super.start(stage)
-    }
 
-    companion object {
-        /**
-         * Launches the splash screen.
+        /*
+         * Start the client pre-start steps.
          */
-        fun launch() {
-            tornadofx.launch<SplashScreen>(arrayOf())
-        }
+        FX.dicontainer?.getInstance(Spectral::class)?.preStart()
     }
 }
