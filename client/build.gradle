@@ -16,6 +16,7 @@ dependencies {
     implementation "no.tornado:tornadofx:$tornadofx"
     implementation "io.reactivex.rxjava3:rxkotlin:$rxkotlin"
     implementation "com.github.thomasnield:rxkotlinfx:$rxkotlinfx"
+    implementation "com.github.uchuhimo:konf:$konf"
 
     testImplementation "org.koin:koin-test:$koin"
 }

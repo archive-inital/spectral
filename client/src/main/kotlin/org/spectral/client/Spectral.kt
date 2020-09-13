@@ -1,6 +1,7 @@
 package org.spectral.client
 
 import org.koin.core.inject
+import org.spectral.client.config.SpectralConfig
 import org.spectral.client.gui.splashscreen.SplashScreen
 import org.spectral.client.gui.splashscreen.SplashScreenManager
 import org.spectral.common.Injectable
@@ -19,6 +20,11 @@ import tornadofx.launch
 class Spectral(val context: SpectralContext) : Injectable {
 
     /**
+     * The spectral configuration file
+     */
+    private val config: SpectralConfig by inject()
+
+    /**
      * The splash screen value manager.
      */
     private val splashScreenManager: SplashScreenManager by inject()
@@ -34,6 +40,15 @@ class Spectral(val context: SpectralContext) : Injectable {
     fun start() {
         logger.info("Starting Spectral client...")
 
+        /*
+         * Load the spectral configuration file.
+         */
+        logger.info("Loading Spectral configuration file.")
+        config.load()
+
+        /*
+         * Launch the splash screen.
+         */
         this.launchSplashScreen()
     }
 

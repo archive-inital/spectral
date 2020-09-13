@@ -1,7 +1,5 @@
 package org.spectral.client.gui.splashscreen
 
-import javafx.application.Application
-import javafx.application.Platform
 import javafx.scene.image.Image
 import javafx.stage.Stage
 import javafx.stage.StageStyle
@@ -30,7 +28,7 @@ class SplashScreen : App(SplashScreenView::class, SplashScreenStyles::class) {
         /*
          * Setup stage and CSS stuff.
          */
-        setStageIcon(Image("/spectral.png"))
+        setStageIcon(Image("/spectral-app.png"))
         importStylesheet("/style.css")
     }
 

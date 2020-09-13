@@ -11,4 +11,5 @@ ext {
     tornadofx = "1.7.20"
     rxkotlin = "3.0.0"
     rxkotlinfx = "2.2.2"
+    konf = "0.22.1"
 }

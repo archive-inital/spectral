@@ -1,7 +1,6 @@
 package org.spectral.client.gui.splashscreen
 
 import io.reactivex.rxjava3.subjects.PublishSubject
-import tornadofx.FX.Companion.find
 
 /**
  * Provides colling observables to the splash screen.
