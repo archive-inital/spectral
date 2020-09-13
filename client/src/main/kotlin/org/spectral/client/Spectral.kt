@@ -1,5 +1,8 @@
 package org.spectral.client
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.koin.core.inject
 import org.spectral.client.common.Defaults
 import org.spectral.client.config.SpectralConfig
@@ -73,20 +76,28 @@ class Spectral(val context: SpectralContext) : Injectable {
         splashScreenManager.progress = 0.1
         splashScreenManager.status = "Preparing client..."
 
-        /*
-         * Download the JAV_CONFIG.
-         */
-        this.downloadJavConfig()
+        runBlocking(Dispatchers.Default) {
+            async {
+                /*
+                 * Download the JAV_CONFIG
+                 */
+                downloadJavConfig()
+            }.await()
 
-        /*
-         * Download the gamepack to Jar file.
-         */
-        this.downloadGamepack()
+            async {
+                /*
+                 * Download the Jagex Gamepack
+                 */
+                downloadGamepack()
+            }.await()
 
-        /*
-         * Check if the gamepack has updated since the last launch.
-         */
-        this.checkForRevisionUpdate()
+            async {
+                /*
+                 * Verify MD5
+                 */
+                checkForRevisionUpdate()
+            }.await()
+        }
     }
 
     /**
@@ -101,7 +112,7 @@ class Spectral(val context: SpectralContext) : Injectable {
      * Downloads the JAV_CONFIG from the url set in the server configuration
      * file located with the name: spectral.yml.
      */
-    private fun downloadJavConfig() {
+    private suspend fun downloadJavConfig() {
         val jagexUrl = config[SpectralConfig.JAGEX_URL]
 
         logger.info("Downloading the Jagex configuration from.")

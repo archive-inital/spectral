@@ -1,5 +1,6 @@
 package org.spectral.client.gui.splashscreen
 
+import javafx.application.Platform
 import javafx.scene.image.Image
 import javafx.stage.Stage
 import javafx.stage.StageStyle
@@ -39,9 +40,11 @@ class SplashScreen : App(SplashScreenView::class, SplashScreenStyles::class) {
         stage.initStyle(StageStyle.UNDECORATED)
         super.start(stage)
 
-        /*
-         * Start the client pre-start steps.
-         */
-        FX.dicontainer?.getInstance(Spectral::class)?.preStart()
+        Platform.runLater {
+            /*
+             * Start the client pre-start steps.
+             */
+            FX.dicontainer?.getInstance(Spectral::class)?.preStart()
+        }
     }
 }
