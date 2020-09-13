@@ -1,3 +1,7 @@
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
 description = "Spectral Client"
 
 apply plugin: 'application'
@@ -9,6 +13,9 @@ dependencies {
     implementation "org.koin:koin-core:$koin"
     implementation "org.koin:koin-core-ext:$koin"
     implementation "com.github.ajalt.clikt:clikt:$clikt"
+    implementation "no.tornado:tornadofx:$tornadofx"
+    implementation "io.reactivex.rxjava3:rxkotlin:$rxkotlin"
+    implementation "com.github.thomasnield:rxkotlinfx:$rxkotlinfx"
 
     testImplementation "org.koin:koin-test:$koin"
 }
@@ -16,4 +23,9 @@ dependencies {
 run {
     mainClassName = "org.spectral.client.Launcher"
     workingDir = rootProject.projectDir
+}
+
+javafx {
+    version = 11
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.base']
 }
