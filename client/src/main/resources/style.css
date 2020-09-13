@@ -1,5 +1,5 @@
 /**
- * RSBox JavaFX CSS
+ * Spectral CSS
  * Copyright 2020
 
  * @author Kyle Escobar
@@ -11,9 +11,9 @@
     -black-light: #28343E;
     -white-dark: #6B859E;
     -white: #A6B5C5;
-    -blue-dark: #3890E9;
+    -blue-dark: #1F9FFC;
     -blue: #7DBEFF;
-    -purple-dark: #A359ED;
+    -purple-dark: #8466F3;
     -purple: #CB96FF;
     -red-dark: #EC5252;
     -red: #FF9191;
@@ -170,4 +170,17 @@
 
 .table-row-cell:filled .table-cell:selected:focused,  .table-row-cell:filled .table-cell:selected {
     -fx-background-color: -fx-selection-bar;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Progress Bar                                                                *
+ *                                                                             *
+ ******************************************************************************/
+
+.progress-bar .bar {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-blue-dark, 95%), derive(-blue-dark, 10%)),
+        linear-gradient(to bottom, -blue-dark, -purple-dark);
 }
