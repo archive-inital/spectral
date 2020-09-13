@@ -4,11 +4,13 @@ import org.koin.core.inject
 import org.spectral.client.config.SpectralConfig
 import org.spectral.client.gui.splashscreen.SplashScreen
 import org.spectral.client.gui.splashscreen.SplashScreenManager
+import org.spectral.client.rs.GamepackDownloader
 import org.spectral.client.rs.JavConfig
 import org.spectral.common.Injectable
 import org.spectral.common.logger.logger
 import tornadofx.launch
 import java.net.URL
+import kotlin.system.exitProcess
 
 /**
  * The Main Spectral Client Object.
@@ -67,6 +69,11 @@ class Spectral(val context: SpectralContext) : Injectable {
          * Download the JAV_CONFIG.
          */
         this.downloadJavConfig()
+
+        /*
+         * Download the gamepack to Jar file.
+         */
+        this.downloadGamepack()
     }
 
     /**
@@ -82,9 +89,9 @@ class Spectral(val context: SpectralContext) : Injectable {
      * file located with the name: spectral.yml.
      */
     private fun downloadJavConfig() {
-        val javConfigUrl = URL(config[SpectralConfig.JAGEX_URL] + "jav_config.ws")
+        val jagexUrl = config[SpectralConfig.JAGEX_URL]
 
-        logger.info("Downloading the Jagex configuration from: '${javConfigUrl.path}'.")
+        logger.info("Downloading the Jagex configuration from.")
 
         /*
          * Update the splash screen
@@ -95,7 +102,30 @@ class Spectral(val context: SpectralContext) : Injectable {
         /*
          * Download and set the JAV_CONFIG
          */
-        javConfig = JavConfig(javConfigUrl)
+        javConfig = JavConfig(jagexUrl)
         javConfig.download()
+    }
+
+    /**
+     * Downlaods the Jagex gamepack using the loaded JavConfig.
+     */
+    private fun downloadGamepack() {
+        logger.info("Downloading Jagex gamepack.")
+
+        /*
+         * Update the splashscreen
+         */
+        splashScreenManager.progress += 0.1
+        splashScreenManager.status = "Downloading Jagex gamepack..."
+
+        if(!::javConfig.isInitialized) {
+            logger.error("Jagex config has not been downloaded. Exiting process.")
+            exitProcess(-1)
+        }
+
+        /*
+         * Download the gamepack and save the Jar file.
+         */
+        GamepackDownloader.downloadGamepack(this.javConfig)
     }
 }

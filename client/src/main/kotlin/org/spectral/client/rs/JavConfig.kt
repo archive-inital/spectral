@@ -1,6 +1,5 @@
 package org.spectral.client.rs
 
-import org.spectral.common.logger.logger
 import java.net.URL
 
 /**
@@ -9,7 +8,7 @@ import java.net.URL
  * @property url The jagex url to load the config from.
  * @constructor
  */
-class JavConfig(val url: URL) {
+class JavConfig(val url: String) {
 
     private val data = hashMapOf<String, String>()
 
@@ -28,7 +27,7 @@ class JavConfig(val url: URL) {
      * Downloads and parsed the Jagex JAV_CONFIG from the [url].
      */
     fun download() {
-        val lines = url.readText(Charsets.UTF_8).split("\n")
+        val lines = URL(url + "jav_config.ws").readText(Charsets.UTF_8).split("\n")
 
         lines.forEach {
             var line = it
