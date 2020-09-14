@@ -13,4 +13,5 @@ ext {
     rxkotlinfx = "2.2.2"
     konf = "0.22.1"
     coroutines = "1.3.9"
+    classgraph = "4.8.90"
 }

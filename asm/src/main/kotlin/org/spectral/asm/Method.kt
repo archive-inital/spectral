@@ -4,7 +4,7 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Type
 import org.objectweb.asm.tree.MethodNode
 
-class Method(val owner: Class, internal val node: MethodNode) : Node {
+class Method(val owner: Class, val node: MethodNode) : Node {
 
     val pool = owner.pool
 
@@ -20,11 +20,11 @@ class Method(val owner: Class, internal val node: MethodNode) : Node {
 
     var returnType = type.returnType
 
-    val instructions = node.instructions
+    var instructions = node.instructions
 
     val exceptions = node.exceptions.toMutableList()
 
-    val tryCatchBlocks = node.tryCatchBlocks.toMutableList()
+    var tryCatchBlocks = node.tryCatchBlocks.toMutableList()
 
     var maxStack = node.maxStack
 

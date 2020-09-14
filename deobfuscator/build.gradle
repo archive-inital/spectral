@@ -1,0 +1,18 @@
+description = "Spectral Deobfuscator"
+
+apply plugin: 'application'
+
+dependencies {
+    implementation project(":asm")
+    implementation "org.ow2.asm:asm:$asm"
+    implementation "org.ow2.asm:asm-commons:$asm"
+    implementation "org.ow2.asm:asm-util:$asm"
+    implementation "org.ow2.asm:asm-tree:$asm"
+    implementation "com.github.ajalt.clikt:clikt:$clikt"
+    implementation "io.github.classgraph:classgraph:$classgraph"
+}
+
+run {
+    mainClassName = "org.spectral.deobfuscator.Deobfuscator"
+    workingDir = rootProject.projectDir
+}

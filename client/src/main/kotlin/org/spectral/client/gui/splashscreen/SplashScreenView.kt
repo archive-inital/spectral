@@ -17,6 +17,7 @@ class SplashScreenView : View("Spectral") {
 
     private val gui: Gui by di()
     private val spectral: Spectral by di()
+    private val splashScreenManager: SplashScreenManager by di()
 
     override val root = vbox {
         alignment = Pos.CENTER
@@ -34,11 +35,11 @@ class SplashScreenView : View("Spectral") {
             paddingBottom = 40.0
         }
 
-        progressbar(0.1) {
+        progressbar(splashScreenManager.progress) {
             prefWidth = 300.0
         }
 
-        label("Preparing client...") {
+        label(splashScreenManager.status) {
             paddingTop = 16.0
             font = Font(14.0)
         }
