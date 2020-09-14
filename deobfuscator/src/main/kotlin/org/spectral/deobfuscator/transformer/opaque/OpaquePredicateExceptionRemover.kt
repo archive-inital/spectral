@@ -2,14 +2,12 @@ package org.spectral.deobfuscator.transformer.opaque
 
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.Type
-import org.objectweb.asm.tree.AbstractInsnNode
-import org.objectweb.asm.tree.IntInsnNode
-import org.objectweb.asm.tree.JumpInsnNode
-import org.objectweb.asm.tree.LdcInsnNode
+import org.objectweb.asm.tree.*
 import org.spectral.asm.ClassPool
 import org.spectral.asm.Method
 import org.spectral.deobfuscator.Transformer
 import org.spectral.deobfuscator.common.Transform
+import java.lang.IllegalStateException
 import java.lang.reflect.Modifier
 
 /**
@@ -38,7 +36,66 @@ class OpaquePredicateExceptionRemover : Transformer {
      * =======================================================
      */
 
+    /**
+     * Gets whether an instruction is returning an opaque predicate value.
+     *
+     * @receiver AbstractInsnNode
+     * @param argIndex Int
+     * @return Boolean
+     */
+    private fun AbstractInsnNode.isOpaqueReturn(argIndex: Int): Boolean {
+        val i0 = this
+        if(i0.opcode != ILOAD) return false
+        i0 as VarInsnNode
+        if(i0.`var` != argIndex) return false
 
+        val i1 = i0.next
+        if(!i1.pushesIntValue) return false
+
+        val i2 = i1.next
+        if(!i2.isIfStatement) return false
+
+        val i3 = i2.next
+        if(!i3.isReturnStatement) return false
+
+        return true
+    }
+
+    /**
+     * Gets whether the instruction is apart of an opaque predicate exception block.
+     *
+     * @receiver AbstractInsnNode
+     * @param argIndex Int
+     * @return Boolean
+     */
+    private fun AbstractInsnNode.isOpaqueException(argIndex: Int): Boolean {
+       val i0 = this
+        if(i0.opcode != ILOAD) return false
+        i0 as VarInsnNode
+        if(i0.`var` != argIndex) return false
+
+        val i1 = i0.next
+        if(!i1.pushesIntValue) return false
+
+        val i2 = i1.next
+        if(!i2.isIfStatement) return false
+
+        val i3 = i2.next
+        if(i3.opcode != NEW) return false
+
+        val i4 = i3.next
+        if(i4.opcode != DUP) return false
+
+        val i5 = i4.next
+        if(i5.opcode != INVOKESPECIAL) return false
+        i5 as MethodInsnNode
+        if(i5.owner != Type.getInternalName(IllegalStateException::class.java)) return false
+
+        val i6 = i5.next
+        if(i6.opcode != ATHROW) return false
+
+        return true
+    }
 
     /**
      * Gets the array index value of the last argument in a given method.
