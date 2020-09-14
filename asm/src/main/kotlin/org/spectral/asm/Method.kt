@@ -4,7 +4,7 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Type
 import org.objectweb.asm.tree.MethodNode
 
-class Method(val owner: Class, internal val node: MethodNode) : Node {
+class Method(val owner: Class, val node: MethodNode) : Node {
 
     val pool = owner.pool
 
