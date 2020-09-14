@@ -4,7 +4,7 @@ import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.Type
 import org.objectweb.asm.tree.ClassNode
 
-class Class(val pool: ClassPool, internal val node: ClassNode) : Node {
+class Class(val pool: ClassPool, val node: ClassNode) : Node {
 
     var version = node.version
 

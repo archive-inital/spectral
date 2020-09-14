@@ -4,7 +4,7 @@ import org.objectweb.asm.FieldVisitor
 import org.objectweb.asm.Type
 import org.objectweb.asm.tree.FieldNode
 
-class Field(val owner: Class, internal val node: FieldNode) : Node {
+class Field(val owner: Class, val node: FieldNode) : Node {
 
     val pool = owner.pool
 
