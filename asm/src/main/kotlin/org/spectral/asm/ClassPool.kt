@@ -28,6 +28,10 @@ class ClassPool {
         classes.forEach { it.process() }
     }
 
+    fun clear() {
+        classMap.clear()
+    }
+
     fun add(classFile: File) {
         add(classFile.inputStream().readAllBytes())
     }

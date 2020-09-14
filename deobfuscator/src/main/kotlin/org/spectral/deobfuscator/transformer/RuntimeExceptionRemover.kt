@@ -11,7 +11,7 @@ import java.lang.RuntimeException
  * Removes the junk [RuntimeException]s from each method in every class within
  * the class pool
  */
-@Transform(priority = 1)
+@Transform(priority = 2)
 class RuntimeExceptionRemover : Transformer {
 
     private var counter = 0
