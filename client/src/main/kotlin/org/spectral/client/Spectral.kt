@@ -5,6 +5,7 @@ import org.spectral.client.common.Defaults
 import org.spectral.client.config.SpectralConfig
 import org.spectral.client.gui.AppletManager
 import org.spectral.client.gui.Gui
+import org.spectral.client.gui.splashscreen.SplashScreenManager
 import org.spectral.client.rs.GamepackUtil
 import org.spectral.client.rs.JavConfig
 import org.spectral.common.Injectable
@@ -30,6 +31,7 @@ class Spectral(val context: SpectralContext) : Injectable {
     private val config: SpectralConfig by inject()
     private val gui: Gui by inject()
     private val appletManager: AppletManager by inject()
+    private val splashScreenManager: SplashScreenManager by inject()
 
     /**
      * The jagex configuration map.
@@ -64,6 +66,14 @@ class Spectral(val context: SpectralContext) : Injectable {
         logger.info("Preparing Pre-Start steps.")
 
         /*
+         * Update the splash screen
+         */
+        javafx.application.Platform.runLater {
+            splashScreenManager.progress.value += 0.1
+            splashScreenManager.status.value = "Preparing client..."
+        }
+
+        /*
          * Download the Jav config
          */
         this.downloadJavConfig()
@@ -93,6 +103,14 @@ class Spectral(val context: SpectralContext) : Injectable {
         logger.info("Downloading the Jagex configuration from.")
 
         /*
+         * Update the splash screen
+         */
+        javafx.application.Platform.runLater {
+            splashScreenManager.progress.value += 0.1
+            splashScreenManager.status.value = "Downloading Jagex configuration..."
+        }
+
+        /*
          * Download and set the JAV_CONFIG
          */
         javConfig = JavConfig(jagexUrl)
@@ -111,6 +129,14 @@ class Spectral(val context: SpectralContext) : Injectable {
         }
 
         /*
+         * Update the splash screen
+         */
+        javafx.application.Platform.runLater {
+            splashScreenManager.progress.value += 0.1
+            splashScreenManager.status.value = "Downloading latest gamepack..."
+        }
+
+        /*
          * Download the gamepack and save the Jar file.
          */
         GamepackUtil.downloadGamepack(this.javConfig)
@@ -125,6 +151,14 @@ class Spectral(val context: SpectralContext) : Injectable {
      */
     private fun checkGamepackChecksum() {
         logger.info("Checking gamepack MD5 checksums.")
+
+        /*
+         * Update splash screen.
+         */
+        javafx.application.Platform.runLater {
+            splashScreenManager.progress.value += 0.1
+            splashScreenManager.status.value = "Verifying gamepack checksum..."
+        }
 
         val gamepackFile = Platform.currentPlatform.dataDir
             .resolve(Defaults.SPECTRAL_DIR)

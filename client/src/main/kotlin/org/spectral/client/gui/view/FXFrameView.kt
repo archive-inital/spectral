@@ -1,11 +1,11 @@
 package org.spectral.client.gui.view
 
 import javafx.scene.image.Image
-import javafx.scene.layout.Priority
-import javafx.scene.layout.Region
 import javafx.scene.text.Font
 import org.spectral.client.gui.Gui
+import org.spectral.client.gui.graphic.TitleBarIconFactory
 import tornadofx.*
+import java.awt.Color
 
 class FXFrameView : View() {
 
@@ -29,21 +29,36 @@ class FXFrameView : View() {
                     }
                 }
 
-            right = hbox(4) {
+            right = hbox(6) {
                 paddingTop = 6.0
                 paddingLeft = 6.0
                 paddingRight = 6.0
 
-                button("X")
+                imageview(TitleBarIconFactory.minimizeIcon(16, ICON_NORMAL)) {
+                    isPickOnBounds = true
+                }
+
+                imageview(TitleBarIconFactory.maximizeIcon(16, ICON_NORMAL)) {
+                    isPickOnBounds = true
+                }
+
+                imageview(TitleBarIconFactory.closeIcon(16, ICON_NORMAL)) {
+                    isPickOnBounds = true
+                }
             }
         }
 
         menubar {
-            paddingTop = 8.0
+            paddingTop = 14.0
             menu("File")
             menu("Edit")
             menu("Plugins")
             menu("Tools")
         }
+    }
+
+    companion object {
+        private val ICON_NORMAL = Color(166, 181, 197)
+        private val ICON_HOVER = Color(107, 133, 158)
     }
 }
