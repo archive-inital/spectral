@@ -50,7 +50,7 @@ class ControlFlowFixer : Transformer {
         val newInsns = InsnList()
 
         if(blocks.isEmpty()) {
-            return insns
+            return newInsns
         }
 
         val labelMap = LabelMap()

@@ -7,6 +7,7 @@ import org.spectral.asm.ClassPool
 import org.spectral.asm.Method
 import org.spectral.deobfuscator.Transformer
 import org.spectral.deobfuscator.common.Transform
+import org.tinylog.kotlin.Logger
 import java.lang.IllegalStateException
 import java.lang.reflect.Modifier
 
@@ -23,11 +24,59 @@ import java.lang.reflect.Modifier
  * This transformer will leave the last arguments that are opaque predicates unused in the client
  * ass well as it will also leave dead code / methods which are no longer reachable.
  */
-@Transform(priority = 2)
+@Transform(priority = 5)
 class OpaquePredicateExceptionRemover : Transformer {
 
-    override fun transform(pool: ClassPool) {
+    private var counter = 0
 
+    override fun transform(pool: ClassPool) {
+        pool.classes.forEach classLoop@ { c ->
+            c.methods.forEach methodLoop@ { m ->
+                val insns = m.instructions.iterator()
+                val lastArgIndex = m.lastArgumentIndex
+
+                while(insns.hasNext()) {
+                    val insn = insns.next()
+
+                    /**
+                     * Get the number of instructions to delete given if
+                     * the instruction matches the return or exception opaque pattern
+                     */
+                    val opaqueInsnCount = if(insn.isOpaqueException(lastArgIndex)) {
+                        7
+                    } else if(insn.isOpaqueReturn(lastArgIndex)) {
+                        4
+                    } else {
+                        continue
+                    }
+
+                    val pushedConstant = insn.next.pushedIntValue
+                    val jumpInsnOpcode = insn.next.next.opcode
+                    val jumpTargetLabel = (insn.next.next as JumpInsnNode).label.label
+
+                    /*
+                     * Remove the ILOAD instruction
+                     */
+                    insns.remove()
+
+                    /*
+                     * Remove The remaining instructions in the opaque insn count
+                     */
+                    repeat(opaqueInsnCount - 1) {
+                        insns.next()
+                        insns.remove()
+                    }
+
+                    /*
+                     * Add a jump to resolve the control flow issue removing the predicate caused.
+                     */
+                    insns.add(JumpInsnNode(GOTO, LabelNode(jumpTargetLabel)))
+                    counter++
+                }
+            }
+        }
+
+        Logger.info("Removed $counter opaque predicate exceptions.")
     }
 
     /*
