@@ -20,11 +20,11 @@ class Method(val owner: Class, val node: MethodNode) : Node {
 
     var returnType = type.returnType
 
-    val instructions = node.instructions
+    var instructions = node.instructions
 
     val exceptions = node.exceptions.toMutableList()
 
-    val tryCatchBlocks = node.tryCatchBlocks.toMutableList()
+    var tryCatchBlocks = node.tryCatchBlocks.toMutableList()
 
     var maxStack = node.maxStack
 

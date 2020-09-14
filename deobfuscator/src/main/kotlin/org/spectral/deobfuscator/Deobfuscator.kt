@@ -155,6 +155,11 @@ class Deobfuscator(val pool: ClassPool) {
                  * Run the deobfuscator
                  */
                 deobfuscator.run()
+
+                /*
+                 * Export the deobfuscated classes to the output JAR file.
+                 */
+                deobfuscator.export(outputJarFile)
             }
         }.main(args)
     }
