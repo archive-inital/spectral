@@ -11,7 +11,7 @@ import org.tinylog.kotlin.Logger
 /**
  * Removes invalid or redundant GOTO jump instructions.
  */
-@Transform(priority = 3)
+@Transform(priority = 10)
 class GotoRemover : Transformer {
 
     private var counter = 0

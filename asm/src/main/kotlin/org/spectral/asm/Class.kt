@@ -18,15 +18,15 @@ class Class(val pool: ClassPool, val node: ClassNode) : Node {
 
     override val type get() = Type.getObjectType(name)
 
-    val interfaces = mutableListOf<String>()
+    var interfaces = node.interfaces.toMutableList()
 
     val parent get() = pool[superName]
 
     val interfaceClasses get() = interfaces.mapNotNull { pool[it] }
 
-    val methods = node.methods.map { Method(this, it) }
+    var methods = node.methods.map { Method(this, it) }.toMutableList()
 
-    val fields = node.fields.map { Field(this, it) }
+    var fields = node.fields.map { Field(this, it) }.toMutableList()
 
     fun process() {
 

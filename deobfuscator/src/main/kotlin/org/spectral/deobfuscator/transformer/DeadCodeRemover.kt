@@ -12,7 +12,7 @@ import org.tinylog.kotlin.Logger
 /**
  * Removes any code which cannot be reached during a method execution.
  */
-@Transform(priority = 4)
+@Transform(priority = 3)
 class DeadCodeRemover : Transformer {
 
     private var counter = 0

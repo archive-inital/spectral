@@ -13,7 +13,7 @@ import kotlin.collections.AbstractMap
  * Reorderes the instruction so that the control flow graph in the bytecode are
  * in a more logical order.
  */
-@Transform(priority = 2)
+@Transform(priority = 4)
 class ControlFlowFixer : Transformer {
 
     private var counter = 0
