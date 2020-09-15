@@ -1,8 +1,10 @@
 package org.spectral.client.gui.view
 
 import javafx.scene.image.Image
+import javafx.scene.layout.BorderPane
 import javafx.scene.text.Font
 import org.spectral.client.gui.Gui
+import org.spectral.client.gui.controller.FXFrameController
 import org.spectral.client.gui.graphic.TitleBarIconFactory
 import tornadofx.*
 import java.awt.Color
@@ -10,9 +12,15 @@ import java.awt.Color
 class FXFrameView : View() {
 
     private val gui: Gui by di()
+    private val controller: FXFrameController by inject()
+
+    var titleBar: BorderPane by singleAssign()
+        private set
 
     override val root = vbox(0) {
         borderpane {
+            titleBar = this
+
             left = hbox(8) {
                     paddingTop = 6.0
                     paddingLeft = 6.0
@@ -55,6 +63,10 @@ class FXFrameView : View() {
             menu("Plugins")
             menu("Tools")
         }
+    }
+
+    init {
+        controller.init()
     }
 
     companion object {
