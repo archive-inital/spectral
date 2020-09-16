@@ -24,25 +24,30 @@ class FXFrameView : View() {
             titleBar = this
 
             left = hbox(8) {
-                    paddingTop = 6.0
-                    paddingLeft = 6.0
-                    paddingRight = 6.0
+                    paddingTop = 5.0
+                    paddingLeft = 8.0
+                    paddingRight = 8.0
+                    paddingBottom = 12.0
 
                     imageview(Image("/spectral-app.png")) {
                         fitWidth = 18.0
                         fitHeight = 18.0
                     }
 
-                    label("Spectral") {
-                        font = Font(13.0)
-                        style = "-fx-font-weight: bold;"
+                    menubar {
+                        paddingTop = -3.0
+                        menu("File")
+                        menu("Edit")
+                        menu("Plugins")
+                        menu("Tools")
                     }
                 }
 
             right = hbox(6) {
                 paddingTop = 6.0
-                paddingLeft = 6.0
-                paddingRight = 6.0
+                paddingLeft = 8.0
+                paddingRight = 8.0
+                paddingBottom = 12.0
 
                 /*
                  * Minimize Icon
@@ -119,14 +124,6 @@ class FXFrameView : View() {
                     }
                 }
             }
-        }
-
-        menubar {
-            paddingTop = 14.0
-            menu("File")
-            menu("Edit")
-            menu("Plugins")
-            menu("Tools")
         }
     }
 

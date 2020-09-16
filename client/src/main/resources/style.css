@@ -69,6 +69,10 @@
     -fx-background-color: -black-dark;
 }
 
+.menu-bar .label {
+    -fx-text-fill: -white;
+}
+
 /*******************************************************************************
  *                                                                             *
  * ScrollBar                                                                   *

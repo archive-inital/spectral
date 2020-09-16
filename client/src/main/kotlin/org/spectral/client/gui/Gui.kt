@@ -46,8 +46,8 @@ class Gui : Injectable {
             frame.layout = null
             frame.title = "Spectral"
 
-            fxFrameWrapper.setBounds(0, 0, currentApplet.width + 6, currentApplet.height + 72)
-            currentApplet.setBounds(3, 68, currentApplet.width, currentApplet.height)
+            fxFrameWrapper.setBounds(0, 0, currentApplet.width + 6, currentApplet.height + 39)
+            currentApplet.setBounds(3, 36, currentApplet.width, currentApplet.height)
 
             frame.add(currentApplet)
             frame.add(fxFrameWrapper)
