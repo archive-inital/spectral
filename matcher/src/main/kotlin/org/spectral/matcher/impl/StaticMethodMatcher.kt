@@ -10,7 +10,7 @@ import org.spectral.matcher.util.CompareUtil
  * Finds potential matches between all the static methods in two
  * different [ClassPool] objects.
  */
-class StaticMethodMatchFinder {
+class StaticMethodMatcher {
 
     private val results = LinkedHashMultimap.create<Method, Method>()
 
