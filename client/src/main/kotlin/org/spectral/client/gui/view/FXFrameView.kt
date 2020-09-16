@@ -11,6 +11,7 @@ import org.spectral.client.gui.graphic.TitleBarIconFactory
 import org.spectral.common.logger.logger
 import tornadofx.*
 import java.awt.Color
+import javax.swing.SwingConstants
 
 class FXFrameView : View() {
 
@@ -20,11 +21,15 @@ class FXFrameView : View() {
     var titleBar: BorderPane by singleAssign()
 
     override val root = vbox(0) {
+        style = "-fx-border-color: derive(-black-dark, -25%);" +
+                "-fx-border-width: 3px;" +
+                "-fx-border-style: solid;"
+
         borderpane {
             titleBar = this
 
             left = hbox(8) {
-                    paddingTop = 5.0
+                    paddingTop = 6.0
                     paddingLeft = 8.0
                     paddingRight = 8.0
                     paddingBottom = 12.0
@@ -35,13 +40,45 @@ class FXFrameView : View() {
                     }
 
                     menubar {
-                        paddingTop = -3.0
-                        menu("File")
-                        menu("Edit")
-                        menu("Plugins")
-                        menu("Tools")
+                        paddingTop = -4.0
+                        menu("File") {
+                            item("New Tab")
+                            item("Close Tab") {
+                                isDisable = true
+                            }
+                            separator()
+                            item("Exit").action { spectral.stop() }
+                        }
+
+                        menu("Edit") {
+                            item("Preferences")
+                        }
+
+                        menu("Tools") {
+                            item("Developer Tools")
+                        }
+
+                        menu("Plugins") {
+                            item("Enable/Disable Plugins")
+                            item("View Plugins")
+                            item("Remove Plugins")
+                            separator()
+                            item("Discover Plugins")
+                        }
+
+                        menu("Help") {
+                            item("Join Our Discord")
+                            item("Report Issue")
+                            item("Knowledge Base")
+                            separator()
+                            item("Changelog")
+                            item("Version")
+                            separator()
+                            item("Check for Updates")
+                        }
                     }
-                }
+
+            }
 
             right = hbox(6) {
                 paddingTop = 6.0
