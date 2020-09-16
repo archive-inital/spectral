@@ -45,21 +45,6 @@ class Spectral(val context: SpectralContext) : Injectable {
     private var revisionUpdate = false
 
     /**
-     * Starts the spectral client.
-     */
-    fun start() {
-        logger.info("Starting Spectral client...")
-
-        /*
-         * Load the spectral configuration file.
-         */
-        logger.info("Loading Spectral configuration file.")
-        config.load()
-
-        gui.launch()
-    }
-
-    /**
      * Runs the prestart initialization.
      */
     fun preStart() {
@@ -91,6 +76,29 @@ class Spectral(val context: SpectralContext) : Injectable {
 
         appletManager.createClient()
         gui.currentApplet = appletManager.applets.first()
+    }
+
+    /**
+     * Starts the spectral client.
+     */
+    fun start() {
+        logger.info("Starting Spectral client...")
+
+        /*
+         * Load the spectral configuration file.
+         */
+        logger.info("Loading Spectral configuration file.")
+        config.load()
+
+        gui.launch()
+    }
+
+    /**
+     * Stops / terminates the Spectral client.
+     */
+    fun stop() {
+        logger.info("Stopping Spectral client...")
+        exitProcess(0)
     }
 
     /**

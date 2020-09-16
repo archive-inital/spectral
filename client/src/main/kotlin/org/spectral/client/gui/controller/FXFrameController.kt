@@ -7,6 +7,7 @@ import org.spectral.client.gui.Gui
 import org.spectral.client.gui.view.FXFrameView
 import tornadofx.Controller
 import java.awt.Toolkit
+import javax.swing.JFrame
 
 /**
  * Responsible for providing movement logic to the Spectral JavaFX
@@ -16,17 +17,23 @@ import java.awt.Toolkit
  */
 class FXFrameController : Controller() {
 
-    private val maximized = SimpleBooleanProperty(false)
-    private val resizable = SimpleBooleanProperty(true)
-    private val snappable = SimpleBooleanProperty(true)
+    /**
+     * Observable property whether the frame is maximized or not.
+     */
+    val maximized = SimpleBooleanProperty(false)
+
+    /**
+     * Observable property whether the frame is resizable or not.
+     * This is always true unless the frame is maximized.
+     */
+    val resizable = SimpleBooleanProperty(true)
 
     private val frame: FXFrameView by inject()
     private val gui: Gui by di()
-
     private val stage by lazy { gui.frame }
     private val handle by lazy { frame.titleBar }
 
-    /*
+    /**
      * Internal states
      */
     private var moving = false
@@ -36,8 +43,8 @@ class FXFrameController : Controller() {
     private var prevPosX = 0
     private var prevPosY = 0
 
-    /*
-     * Stage setter properties
+    /**
+     * Stage size and position setters
      */
 
     private var stageX: Int
@@ -55,15 +62,31 @@ class FXFrameController : Controller() {
     private var stageWidth: Int
         get() = stage.width
         set(value) {
-            stage.setSize(value, stage.height)
+            stage.setSize(value + 3, stage.height)
+
+            /*
+             * Adjust the wrapper and applet size and positions within the frame.
+             */
             gui.fxFrameWrapper.setSize(stage.width, stage.height)
+            gui.currentApplet.setLocation(
+                stage.width - ((stage.width / 2) + (gui.currentApplet.width / 2)),
+                stage.height - ((stage.height / 2) + (gui.currentApplet.height / 2)) + 32
+            )
         }
 
     private var stageHeight: Int
         get() = stage.height
         set(value) {
             stage.setSize(stage.width, value)
+
+            /*
+             * Adjust the wrapper and applet size and positions within the frame.
+             */
             gui.fxFrameWrapper.setSize(stage.width, stage.height)
+            gui.currentApplet.setLocation(
+                stage.width - ((stage.width / 2) + (gui.currentApplet.width / 2)),
+                stage.height - ((stage.height / 2) + (gui.currentApplet.height / 2)) + 32
+            )
         }
 
     /**
@@ -112,6 +135,7 @@ class FXFrameController : Controller() {
 
         handle.setOnMouseDragged { event ->
             if(event.isPrimaryButtonDown) {
+                if(resizing) return@setOnMouseDragged
                 moving = true
 
                 stageX = (event.screenX - dx).toInt()
@@ -182,7 +206,12 @@ class FXFrameController : Controller() {
         }
     }
 
+    fun minimize() {
+        stage.state = JFrame.ICONIFIED
+    }
+
     private fun setMaximizedState(state: Boolean) {
         this.maximized.set(state)
     }
+
 }
