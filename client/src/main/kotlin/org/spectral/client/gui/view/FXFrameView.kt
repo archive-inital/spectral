@@ -50,10 +50,12 @@ class FXFrameView : View() {
                     isPickOnBounds = true
 
                     setOnMouseEntered {
+                        controller.movable.set(false)
                         image = TitleBarIconFactory.minimizeIcon(16, ICON_HOVER)
                     }
 
                     setOnMouseExited {
+                        controller.movable.set(true)
                         image = TitleBarIconFactory.minimizeIcon(16, ICON_NORMAL)
                     }
 
@@ -69,14 +71,17 @@ class FXFrameView : View() {
                     isPickOnBounds = true
 
                     setOnMouseEntered {
+                        controller.movable.set(false)
                         image = if(controller.maximized.get()) {
                             TitleBarIconFactory.restoreIcon(16, ICON_HOVER)
+
                         } else {
                             TitleBarIconFactory.maximizeIcon(16, ICON_HOVER)
                         }
                     }
 
                     setOnMouseExited {
+                        controller.movable.set(true)
                         image = if(controller.maximized.get()) {
                             TitleBarIconFactory.restoreIcon(16, ICON_NORMAL)
                         } else {
@@ -99,10 +104,12 @@ class FXFrameView : View() {
                     isPickOnBounds = true
 
                     setOnMouseEntered {
+                        controller.movable.set(false)
                         image = TitleBarIconFactory.closeIcon(16, ICON_HOVER)
                     }
 
                     setOnMouseExited {
+                        controller.movable.set(true)
                         image = TitleBarIconFactory.closeIcon(16, ICON_NORMAL)
                     }
 

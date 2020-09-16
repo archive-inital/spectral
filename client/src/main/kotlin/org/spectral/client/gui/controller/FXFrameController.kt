@@ -28,6 +28,13 @@ class FXFrameController : Controller() {
      */
     val resizable = SimpleBooleanProperty(true)
 
+    /**
+     * Observable property which determins if the moving events will trigger or not.
+     * This is used when you hover over the title bar minimize, maximize, and close icons as we
+     * want those button events to take priority.
+     */
+    val movable = SimpleBooleanProperty(true)
+
     private val frame: FXFrameView by inject()
     private val gui: Gui by di()
     private val stage by lazy { gui.frame }
@@ -114,6 +121,7 @@ class FXFrameController : Controller() {
          * Event Listeners
          */
         handle.setOnMousePressed { event ->
+            if(!movable.get()) return@setOnMousePressed
             if(event.isPrimaryButtonDown) {
                 dx = event.sceneX.toInt()
                 dy = event.sceneY.toInt()
@@ -134,6 +142,7 @@ class FXFrameController : Controller() {
         }
 
         handle.setOnMouseDragged { event ->
+            if(!movable.get()) return@setOnMouseDragged
             if(event.isPrimaryButtonDown) {
                 if(resizing) return@setOnMouseDragged
                 moving = true
@@ -150,6 +159,7 @@ class FXFrameController : Controller() {
         }
 
         handle.setOnMouseReleased { event ->
+            if(!movable.get()) return@setOnMouseReleased
             if(event.button == MouseButton.PRIMARY) {
                 moving = false
 
@@ -161,26 +171,17 @@ class FXFrameController : Controller() {
                 }
             }
         }
-
-        /*
-         * Double click title bar to maximize
-         */
-        handle.setOnMouseClicked { event ->
-            if(!moving && event.button == MouseButton.PRIMARY && event.clickCount == 2) {
-                /*
-                 * Disables for now. For this not to cause bugs, I need to add a system
-                 * where you cannot trigger this event for some ms after moving. This is due
-                 * to JavaFX not resetting the click count.
-                 */
-                //toggleMaximize()
-            }
-        }
     }
 
     /**
      * Toggles whether the window is maximized or not.
      */
     fun toggleMaximize() {
+        /*
+         * Reset the movable property.
+         */
+        movable.set(true)
+
         val screenSize = Toolkit.getDefaultToolkit().screenSize
 
         if(maximized.get()) {
@@ -207,6 +208,7 @@ class FXFrameController : Controller() {
     }
 
     fun minimize() {
+        movable.set(true)
         stage.state = JFrame.ICONIFIED
     }
 
