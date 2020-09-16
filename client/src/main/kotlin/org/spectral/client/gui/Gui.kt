@@ -12,6 +12,7 @@ import org.spectral.common.logger.logger
 import tornadofx.find
 import java.applet.Applet
 import java.awt.BorderLayout
+import java.awt.Dimension
 import java.awt.GridLayout
 import javax.swing.ImageIcon
 import javax.swing.JFrame
@@ -51,7 +52,7 @@ class Gui : Injectable {
             frame.add(currentApplet)
             frame.add(fxFrameWrapper)
 
-            frame.size = fxFrameWrapper.size
+            frame.size = Dimension(fxFrameWrapper.width, fxFrameWrapper.height)
             frame.maximumSize = frame.size
 
             frame.isUndecorated = true

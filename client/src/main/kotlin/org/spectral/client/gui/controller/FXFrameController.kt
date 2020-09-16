@@ -62,15 +62,15 @@ class FXFrameController : Controller() {
     private var stageWidth: Int
         get() = stage.width
         set(value) {
-            stage.setSize(value + 3, stage.height)
+            stage.setSize(value, stage.height)
 
             /*
              * Adjust the wrapper and applet size and positions within the frame.
              */
-            gui.fxFrameWrapper.setSize(stage.width, stage.height)
+            gui.fxFrameWrapper.setSize(stage.width, gui.fxFrameWrapper.height)
             gui.currentApplet.setLocation(
-                stage.width - ((stage.width / 2) + (gui.currentApplet.width / 2)),
-                stage.height - ((stage.height / 2) + (gui.currentApplet.height / 2)) + 32
+                stage.width - ((stage.width / 2) + (gui.currentApplet.width / 2)) - 1,
+                gui.currentApplet.y
             )
         }
 
@@ -82,10 +82,10 @@ class FXFrameController : Controller() {
             /*
              * Adjust the wrapper and applet size and positions within the frame.
              */
-            gui.fxFrameWrapper.setSize(stage.width, stage.height)
+            gui.fxFrameWrapper.setSize(gui.fxFrameWrapper.width, stage.height)
             gui.currentApplet.setLocation(
-                stage.width - ((stage.width / 2) + (gui.currentApplet.width / 2)),
-                stage.height - ((stage.height / 2) + (gui.currentApplet.height / 2)) + 32
+                gui.currentApplet.x,
+                stage.height - ((stage.height / 2) + (gui.currentApplet.height / 2)) + 31
             )
         }
 
