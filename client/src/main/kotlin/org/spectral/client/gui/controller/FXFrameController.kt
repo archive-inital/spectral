@@ -1,14 +1,12 @@
 package org.spectral.client.gui.controller
 
 import javafx.beans.property.SimpleBooleanProperty
-import javafx.geometry.Rectangle2D
 import javafx.scene.input.MouseButton
 import javafx.stage.Screen
 import org.spectral.client.gui.Gui
 import org.spectral.client.gui.view.FXFrameView
 import tornadofx.Controller
-import tornadofx.onChange
-import javax.swing.JFrame
+import java.awt.Toolkit
 
 /**
  * Responsible for providing movement logic to the Spectral JavaFX
@@ -58,14 +56,14 @@ class FXFrameController : Controller() {
         get() = stage.width
         set(value) {
             stage.setSize(value, stage.height)
-            gui.fxFrameWrapper.setBounds(0, 0, value + 6, gui.fxFrameWrapper.height)
+            gui.fxFrameWrapper.setSize(stage.width, stage.height)
         }
 
     private var stageHeight: Int
         get() = stage.height
         set(value) {
             stage.setSize(stage.width, value)
-            gui.fxFrameWrapper.setBounds(0, 0, gui.fxFrameWrapper.width, value + 72)
+            gui.fxFrameWrapper.setSize(stage.width, stage.height)
         }
 
     /**
@@ -97,10 +95,15 @@ class FXFrameController : Controller() {
                 dx = event.sceneX.toInt()
                 dy = event.sceneY.toInt()
 
-                prevSizeX = stage.width
-                prevSizeY = stage.height
-                prevPosX = stage.x
-                prevPosY = stage.y
+                if(maximized.get()) {
+                    dx = (prevSizeX * (event.sceneX / stage.width)).toInt()
+                    dy = (prevSizeY * (event.sceneY / stage.height)).toInt()
+                } else {
+                    prevSizeX = stage.width
+                    prevSizeY = stage.height
+                    prevPosX = stage.x
+                    prevPosY = stage.y
+                }
 
                 startX = event.screenX.toInt()
                 startY = handle.prefHeight(stage.height.toDouble()).toInt()
@@ -113,13 +116,73 @@ class FXFrameController : Controller() {
 
                 stageX = (event.screenX - dx).toInt()
                 stageY = (event.screenY - dy).toInt()
+
+                if(maximized.get()) {
+                    stageWidth = prevSizeX
+                    stageHeight = prevSizeY
+                    setMaximizedState(false)
+                }
             }
         }
 
         handle.setOnMouseReleased { event ->
-            if(event.button == MouseButton.PRIMARY && event.screenX != startX.toDouble()) {
+            if(event.button == MouseButton.PRIMARY) {
                 moving = false
+
+                if(!maximized.get()) {
+                    prevSizeX = stage.width
+                    prevSizeY = stage.height
+                    prevPosX = stage.x
+                    prevPosY = stage.y
+                }
             }
         }
+
+        /*
+         * Double click title bar to maximize
+         */
+        handle.setOnMouseClicked { event ->
+            if(!moving && event.button == MouseButton.PRIMARY && event.clickCount == 2) {
+                /*
+                 * Disables for now. For this not to cause bugs, I need to add a system
+                 * where you cannot trigger this event for some ms after moving. This is due
+                 * to JavaFX not resetting the click count.
+                 */
+                //toggleMaximize()
+            }
+        }
+    }
+
+    /**
+     * Toggles whether the window is maximized or not.
+     */
+    fun toggleMaximize() {
+        val screenSize = Toolkit.getDefaultToolkit().screenSize
+
+        if(maximized.get()) {
+            stageWidth = prevSizeX
+            stageHeight = prevSizeY
+            stageX = prevPosX
+            stageY = prevPosY
+            setMaximizedState(false)
+        } else {
+            prevSizeX = stage.width
+            prevSizeY = stage.height
+            prevPosX = stage.x
+            prevPosY = stage.y
+            /*
+             * Set the stage location and size for when we maximize the
+             * window.
+             */
+            stageX = 0
+            stageY = 0
+            stageWidth = screenSize.width
+            stageHeight = screenSize.height
+            setMaximizedState(true)
+        }
+    }
+
+    private fun setMaximizedState(state: Boolean) {
+        this.maximized.set(state)
     }
 }
