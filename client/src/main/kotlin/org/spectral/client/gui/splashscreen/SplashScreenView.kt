@@ -20,6 +20,10 @@ class SplashScreenView : View("Spectral") {
     private val splashScreenManager: SplashScreenManager by di()
 
     override val root = vbox {
+        style = "-fx-border-color: derive(-black-dark, -25%);" +
+                "-fx-border-width: 3px;" +
+                "-fx-border-style: solid;"
+
         alignment = Pos.CENTER
 
         setPrefSize(425.0, 375.0)

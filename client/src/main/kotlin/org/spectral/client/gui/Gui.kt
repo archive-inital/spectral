@@ -12,6 +12,7 @@ import org.spectral.common.logger.logger
 import tornadofx.find
 import java.applet.Applet
 import java.awt.BorderLayout
+import java.awt.Dimension
 import java.awt.GridLayout
 import javax.swing.ImageIcon
 import javax.swing.JFrame
@@ -28,14 +29,14 @@ class Gui : Injectable {
     /**
      * The primary Java Swing frame the elements are embeded in.
      */
-    val frame = JFrame()
+    internal val frame = JFrame()
 
     /**
      * JavaFX
      */
     private lateinit var stage: Stage
     private lateinit var app: SpectralApp
-    private lateinit var fxFrameWrapper: JFXPanel
+    lateinit var fxFrameWrapper: JFXPanel private set
 
     lateinit var currentApplet: Applet
 
@@ -45,14 +46,14 @@ class Gui : Injectable {
             frame.layout = null
             frame.title = "Spectral"
 
-            fxFrameWrapper.setBounds(0, 0, currentApplet.width + 6, currentApplet.height + 72)
-            currentApplet.setBounds(3, 68, currentApplet.width, currentApplet.height)
+            fxFrameWrapper.setBounds(0, 0, currentApplet.width + 6, currentApplet.height + 39)
+            currentApplet.setBounds(3, 36, currentApplet.width, currentApplet.height)
 
             frame.add(currentApplet)
             frame.add(fxFrameWrapper)
 
-            frame.size = fxFrameWrapper.size
-            frame.maximumSize = frame.size
+            frame.size = Dimension(fxFrameWrapper.width, fxFrameWrapper.height)
+            frame.minimumSize = Dimension(fxFrameWrapper.width, fxFrameWrapper.height)
 
             frame.isUndecorated = true
             frame.iconImage = ImageIcon(ClassLoader.getSystemResource("spectral-app.png")).image

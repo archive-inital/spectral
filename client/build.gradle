@@ -1,5 +1,6 @@
 plugins {
     id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
 description = "Spectral Client"
@@ -30,4 +31,8 @@ run {
 javafx {
     version = 11
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.base', 'javafx.graphics', 'javafx.swing']
+}
+
+shadowJar {
+    archiveName = "spectral-client.jar"
 }

@@ -39,10 +39,6 @@
     -fx-accent: -black-light;
     -fx-focus-color: -black-light;
     -fx-text-base-color: -white;
-    -fx-border-color: derive(-black-dark, -25%);
-    -fx-border-width: 3px;
-    -fx-border-style: solid;
-    -fx-font-family: 'roboto';
 }
 
 .label {
@@ -67,6 +63,10 @@
 
 .menu-bar {
     -fx-background-color: -black-dark;
+}
+
+.menu-bar .label {
+    -fx-text-fill: -white;
 }
 
 /*******************************************************************************
