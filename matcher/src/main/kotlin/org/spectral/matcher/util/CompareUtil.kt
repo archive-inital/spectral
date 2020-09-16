@@ -49,7 +49,6 @@ object CompareUtil {
             if(!isPotentialMatch(a.owner, b.owner)) return false
         }
         if(!isPotentiallyEqual(a.desc, b.desc)) return false
-        if(!isPotentiallyEqual(a.type, b.type)) return false
 
         return true
     }
