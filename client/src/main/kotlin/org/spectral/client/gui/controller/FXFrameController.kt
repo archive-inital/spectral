@@ -1,6 +1,7 @@
 package org.spectral.client.gui.controller
 
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.scene.Cursor
 import javafx.scene.input.MouseButton
 import javafx.stage.Screen
 import org.spectral.client.gui.Gui
@@ -105,6 +106,7 @@ class FXFrameController : Controller() {
         prevPosX = stage.x
         prevPosY = stage.y
 
+        this.initResizeControls()
         this.initMoveControls()
     }
 
@@ -204,6 +206,114 @@ class FXFrameController : Controller() {
             stageWidth = screenSize.width
             stageHeight = screenSize.height
             setMaximizedState(true)
+        }
+    }
+
+    /**
+     * Initializes the windows resize controls and event listeners.
+     */
+    private fun initResizeControls() {
+        var up = false
+        var right = false
+        var down = false
+        var left = false
+
+        frame.root.setOnDragDetected { event ->
+            prevSizeX = stage.width
+            prevSizeY = stage.height
+            prevPosX = stage.x
+            prevPosY = stage.y
+        }
+
+        frame.root.setOnMouseMoved { event ->
+            /*
+             * Reset directions and recalculate them
+             */
+            up = false
+            right = false
+            down = false
+            left = false
+
+            if(event.sceneX <= 5) left = true
+            if(event.sceneY <= 5) up = true
+            if(event.sceneX >= stage.width - 5) right = true
+            if(event.sceneY >= stage.height - 5) down = true
+
+            frame.root.cursor = when {
+                left -> {
+                    when {
+                        up -> Cursor.NW_RESIZE
+                        down -> Cursor.SW_RESIZE
+                        else -> Cursor.W_RESIZE
+                    }
+                }
+                right -> {
+                    when {
+                        up -> Cursor.NE_RESIZE
+                        down -> Cursor.SE_RESIZE
+                        else -> Cursor.E_RESIZE
+                    }
+                }
+                else -> {
+                    when {
+                        up -> Cursor.N_RESIZE
+                        down -> Cursor.S_RESIZE
+                        else -> Cursor.DEFAULT
+                    }
+                }
+            }
+        }
+
+        frame.root.setOnMouseDragged { event ->
+            if(event.isPrimaryButtonDown) {
+                /*
+                 * If we are moving the window, disable resizing mode.
+                 */
+                if(moving) return@setOnMouseDragged
+                resizing = true
+
+                val dw = stage.width
+                val dh = stage.height
+
+                /*
+                 * Horizontal Resizing
+                 */
+                if(left) {
+                    val cw = (dw - event.screenX + stage.x).toInt()
+                    if(cw > 0 && cw >= stage.minimumSize.width) {
+                        stageWidth = (stage.x - event.screenX + stage.width).toInt()
+                        stageX = event.screenX.toInt()
+                    }
+                }
+                else if(right) {
+                    val cw = (dw + event.x).toInt()
+                    if(cw > 0 && cw >= stage.minimumSize.width) {
+                        stageWidth = event.sceneX.toInt()
+                    }
+                }
+
+                /*
+                 * Vertical Resizing
+                 */
+                if(up) {
+                    if((dh > stage.minimumSize.height) || (event.y < 0)) {
+                        stageHeight = (stage.y - event.screenY + stage.height).toInt()
+                        stageY = event.screenY.toInt()
+                    }
+                }
+                else if(down) {
+                    val ch = dh + event.y
+                    if(ch > 0 && ch >= stage.height) {
+                        stageHeight = event.sceneY.toInt()
+                    }
+                }
+            }
+        }
+
+        frame.root.setOnMouseReleased { event ->
+            if(event.button == MouseButton.PRIMARY) {
+                resizing = false
+            }
         }
     }
 

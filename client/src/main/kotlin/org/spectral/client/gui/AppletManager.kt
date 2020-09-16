@@ -25,8 +25,8 @@ class AppletManager : Injectable {
     fun createClient() {
         logger.info("Creating Jagex client wrapper.")
 
-        //val gamepackFile = Platform.currentPlatform.dataDir.resolve(Defaults.SPECTRAL_DIR).resolve("bin/gamepack-raw.jar").toFile()
-        val gamepackFile = File("gamepack-deob.jar")
+        val gamepackFile = Platform.currentPlatform.dataDir.resolve(Defaults.SPECTRAL_DIR).resolve("bin/gamepack-raw.jar").toFile()
+        //val gamepackFile = File("gamepack-deob.jar")
         val classloader = URLClassLoader(arrayOf(gamepackFile.toURI().toURL()))
         val applet = classloader.loadClass(javConfig["initial_class"]!!.replace(".class","")).newInstance() as Applet
         applet.background = Color.BLACK

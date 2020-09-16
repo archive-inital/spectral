@@ -1,6 +1,7 @@
 package org.spectral.client.gui.view
 
 import javafx.scene.image.Image
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.text.Font
 import org.spectral.client.Spectral
@@ -59,7 +60,7 @@ class FXFrameView : View() {
                         image = TitleBarIconFactory.minimizeIcon(16, ICON_NORMAL)
                     }
 
-                    onLeftClick {
+                    addEventHandler(MouseEvent.MOUSE_CLICKED) {
                         controller.minimize()
                     }
                 }
@@ -89,7 +90,7 @@ class FXFrameView : View() {
                         }
                     }
 
-                    onLeftClick {
+                    addEventHandler(MouseEvent.MOUSE_CLICKED) {
                         controller.toggleMaximize()
 
                         image = if(controller.maximized.get()) {
@@ -113,7 +114,7 @@ class FXFrameView : View() {
                         image = TitleBarIconFactory.closeIcon(16, ICON_NORMAL)
                     }
 
-                    onLeftClick {
+                    addEventHandler(MouseEvent.MOUSE_CLICKED) {
                         spectral.stop()
                     }
                 }

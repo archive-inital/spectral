@@ -53,7 +53,7 @@ class Gui : Injectable {
             frame.add(fxFrameWrapper)
 
             frame.size = Dimension(fxFrameWrapper.width, fxFrameWrapper.height)
-            frame.maximumSize = frame.size
+            frame.minimumSize = Dimension(fxFrameWrapper.width, fxFrameWrapper.height)
 
             frame.isUndecorated = true
             frame.iconImage = ImageIcon(ClassLoader.getSystemResource("spectral-app.png")).image

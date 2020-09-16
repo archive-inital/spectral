@@ -35,6 +35,6 @@ class SpectralApp : App(FXFrameView::class) {
     }
 
     override fun shouldShowPrimaryStage(): Boolean {
-        return false
+        return true
     }
 }
