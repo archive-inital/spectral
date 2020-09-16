@@ -11,11 +11,7 @@ import java.awt.Color
 
 class FXFrameView : View() {
 
-    private val gui: Gui by di()
-    private val controller: FXFrameController by inject()
-
     var titleBar: BorderPane by singleAssign()
-        private set
 
     override val root = vbox(0) {
         borderpane {
@@ -63,10 +59,6 @@ class FXFrameView : View() {
             menu("Plugins")
             menu("Tools")
         }
-    }
-
-    init {
-        controller.init()
     }
 
     companion object {

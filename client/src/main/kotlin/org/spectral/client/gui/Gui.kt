@@ -28,14 +28,14 @@ class Gui : Injectable {
     /**
      * The primary Java Swing frame the elements are embeded in.
      */
-    val frame = JFrame()
+    internal val frame = JFrame()
 
     /**
      * JavaFX
      */
     private lateinit var stage: Stage
     private lateinit var app: SpectralApp
-    private lateinit var fxFrameWrapper: JFXPanel
+    lateinit var fxFrameWrapper: JFXPanel private set
 
     lateinit var currentApplet: Applet
 
