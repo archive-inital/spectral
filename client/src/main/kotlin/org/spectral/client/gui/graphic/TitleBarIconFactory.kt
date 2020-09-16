@@ -5,7 +5,9 @@ import javafx.scene.image.Image
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.RenderingHints
+import java.awt.geom.GeneralPath
 import java.awt.image.BufferedImage
+import javax.swing.SwingConstants
 import kotlin.math.max
 
 /**
@@ -104,7 +106,7 @@ object TitleBarIconFactory {
          */
         g.color = color
 
-        val start = size / 4 -1
+        val start = size / 4 - 1
         val end = size - start
         val smallSquareSize = end - start - 3
 
@@ -122,6 +124,50 @@ object TitleBarIconFactory {
         g.fillRect(secondaryStartX, secondaryStartY, smallSquareSize, 2)
         g.fillRect(secondaryStartX + smallSquareSize - 1, secondaryStartY, 1, smallSquareSize)
         g.fillRect(mainStartX + smallSquareSize + 1, secondaryStartY + smallSquareSize - 1, 2, 1)
+
+        g.dispose()
+
+        return SwingFXUtils.toFXImage(img, null)
+    }
+
+    /**
+     * Arrow icon
+     *
+     * @param size Int
+     * @param strokeSize Int
+     * @param dir Int
+     * @param color Color
+     * @return Image
+     */
+    fun arrowIcon(size: Int, strokeSize: Float, dir: Int, color: Color): Image {
+        val img = BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB)
+        val g = img.createGraphics()
+
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC)
+
+        g.color = color
+        g.stroke = BasicStroke(strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER)
+
+        val cushion = strokeSize / 2.0f
+        val gp = GeneralPath()
+
+        when(dir) {
+            SwingConstants.SOUTH -> {
+                gp.moveTo(cushion, cushion)
+                gp.lineTo(0.5f * size, size - cushion - 1)
+                gp.lineTo(size - cushion, cushion)
+            }
+
+            SwingConstants.NORTH -> {
+                gp.moveTo(cushion, size - cushion - 1)
+                gp.lineTo(0.5f * size, cushion)
+                gp.lineTo(size - cushion, size - cushion - 1)
+            }
+        }
+
+        g.draw(gp)
 
         g.dispose()
 
