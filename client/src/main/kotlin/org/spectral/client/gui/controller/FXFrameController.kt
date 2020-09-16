@@ -93,7 +93,7 @@ class FXFrameController : Controller() {
             gui.fxFrameWrapper.setSize(gui.fxFrameWrapper.width, stage.height)
             gui.currentApplet.setLocation(
                 gui.currentApplet.x,
-                stage.height - ((stage.height / 2) + (gui.currentApplet.height / 2)) + 15
+                stage.height - ((stage.height / 2) + (gui.currentApplet.height / 2)) + 16
             )
         }
 
