@@ -1,8 +1,0 @@
-rootProject.name = 'spectral'
-
-include ':asm'
-include ':client'
-include ':common'
-include ':util'
-include ':injector'
-include ':deobfuscator'
